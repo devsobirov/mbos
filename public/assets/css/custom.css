@@ -1,0 +1,80 @@
+* {margin: 0; padding: 0;}
+
+.wrapper {
+    width: 100%;
+    max-width: 900px;
+    padding: 80px 100px;
+    font-family: 'Roboto Condensed', sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.stress-results {
+    width: 60%;
+    margin: auto auto 50px;
+}
+.stress-result-item {
+    margin-bottom: 10px;
+    display: flex;
+}
+.stress-result-item * {
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+.stress-result-item .dotted {
+    border-bottom: dotted black 2px;
+    width: 100%;
+    padding: 0 5px;
+}
+
+.bordered-wrapper {
+    width: 100%;
+    padding: 100px 30px 50px 30px;
+    border: 1px solid black;
+}
+
+.graph-drawing {display: flex;}
+.graph-drawing > div {max-width: 50%; width: 50%; position: relative;}
+.graph-drawing > div .drawing-text {
+    position: absolute; width: 100%; text-align: center; padding: 8px 20px; font-size: 20px;
+    font-weight: 700; top: 4px;
+}
+
+.graph-drawing .stress-drawing {background-color: #ea1e1e; width: 27%; height: 45px;}
+.graph-drawing .psycho-drawing {background-color: rgb(9, 184, 9); width: 73%; height: 45px;}
+
+.graph-percentage {
+    display: flex;
+    position: relative;
+    margin-top: 35px;
+}
+.graph-percentage .item {
+    height: 10px;
+    width: 25%;
+    border: solid 1px black;
+    border-top-color: transparent;
+}
+.graph-percentage .percentage {
+    position: absolute;
+    top: -25px;
+}
+.right-100{left: calc(95% + 20px)}
+.left-100{right: calc(95% + 20px)}
+.right-50{left: calc(25% - 8px)}
+.left-50{right: calc(25% - 20px)}
+.zero {left: calc(50% - 4px)}
+
+.chart-graph-wrapper {
+    display: flex; flex-wrap: wrap;
+    margin-top: 40px;
+    gap: 10px;
+}
+
+.chart-graph-wrapper > * {
+    width: 49%;
+    padding: 0 30px;
+    /*background-color: #0ca678;*/
+    min-height: 200px;
+    box-sizing: border-box;
+}
+
+
