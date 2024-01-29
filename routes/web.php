@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +22,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{project}', 'show')->name('projects.plans');
         Route::post('/save-plan', 'save')->name('projects.save-plan');
         Route::delete('/delete-plan/{planId}', 'delete')->name('projects.delete-plan');
+    });
+
+    Route::controller(CustomerController::class)->prefix('customers')->group(function () {
+        Route::get('/', 'index')->name('customers.index');
+        Route::post('/save', 'save')->name('customers.save');
     });
 
     Route::get('users', [UserController::class, 'index'])->name('users.index');

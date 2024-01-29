@@ -21,6 +21,13 @@
                             <span class="nav-link-title">Проекты</span>
                         </a>
                     </li>
+
+                    <li class="nav-item @if(request()->routeIs('customers.*')) active @endif">
+                        <a class="nav-link" href="{{ route('customers.index') }}" >
+                            <span class="nav-link-icon d-md-none d-lg-inline-block"><x-svg.store></x-svg.store></span>
+                            <span class="nav-link-title">Клиенты</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

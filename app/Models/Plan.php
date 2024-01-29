@@ -27,10 +27,10 @@ class Plan extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public static function getOrNew($plan_id = null): self
+    public static function getOrNew($id = null): self
     {
-        return $plan_id
-            ? self::findOrFail($plan_id)
+        return $id
+            ? self::findOrFail($id)
             : new self();
     }
 
