@@ -28,6 +28,13 @@
                             <span class="nav-link-title">Клиенты</span>
                         </a>
                     </li>
+
+                    <li class="nav-item @if(request()->routeIs('logs.*')) active @endif">
+                        <a class="nav-link" href="{{ route('logs.index') }}" >
+                            <span class="nav-link-icon d-md-none d-lg-inline-block"><x-svg.history></x-svg.history></span>
+                            <span class="nav-link-title">Логи</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

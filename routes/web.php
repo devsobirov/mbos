@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/save', 'save')->name('customers.save');
     });
 
+    Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
+
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

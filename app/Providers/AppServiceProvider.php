@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Customer;
+use App\Models\Plan;
+use App\Models\Project;
+use App\Observers\CustomerObserver;
+use App\Observers\PlanObserver;
+use App\Observers\ProjectObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -27,5 +33,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+
+        Project::observe(ProjectObserver::class);
+        Plan::observe(PlanObserver::class);
+        //Customer::observe(CustomerObserver::class);
     }
 }

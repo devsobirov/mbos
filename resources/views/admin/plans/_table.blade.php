@@ -17,7 +17,13 @@
             <td>{{ $item->id }}</td>
             <td class="w-25">{{ $item->name }} <p class="fs-6 text-secondary">{{$item->description}}</p></td>
             <td>{{$item->base_price}} sum/{{$item->base_amount}} {{$item->getUnit()}} uchun</td>
-            <td>{{$item->per_extra_price}} sum / xar {{$item->per_extra_amount}} {{$item->getUnit()}} uchun</td>
+            <td>
+                @if($item->per_extra_price && $item->per_extra_amount)
+                    {{$item->per_extra_price}} sum / xar {{$item->per_extra_amount}} {{$item->getUnit()}} uchun
+                @else
+                -
+                @endif
+            </td>
             <td>{!!$item->deleted_at ? "O'chirilgan: <br> " . $item->deleted_at->format('d-m-Y H:i') : 'Aktiv'!!}</td>
             <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
             <td>{{$item->updated_at->format('Y-m-d H:i')}}</td>

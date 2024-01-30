@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label class="form-label">Qo'shimcha xizmat miqdori</label>
-                        <input type="number" class="form-control" name="per_extra_amount" required value="{{$item->per_extra_amount ?: old('per_extra_amount')}}" placeholder="Masalan, 1 qo'shimcha xodim uchun">
+                        <input type="number" class="form-control" name="per_extra_amount" value="{{$item->per_extra_amount ?: old('per_extra_amount')}}" placeholder="Masalan, 1 qo'shimcha xodim uchun">
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label class="form-label">Ko'rsatilgan qo'shimcha xizmat birligi uchun narx</label>

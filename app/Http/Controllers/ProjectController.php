@@ -34,9 +34,7 @@ class ProjectController extends Controller
              $project->delete();
              $msg = "Proekt va uning barcha tariflari muvafaqqiyatli o'chirildi";
          } else {
-             Plan::withTrashed()->where('project_id', $project->id)->update([
-                 'deleted_at' => null
-             ]);
+             Plan::withTrashed()->where('project_id', $project->id)->restore();
              $project->restore();
              $msg = "Proekt va uning barcha tariflari qayta tiklandi";
          }
