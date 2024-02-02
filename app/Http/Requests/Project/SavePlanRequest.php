@@ -17,7 +17,7 @@ class SavePlanRequest extends FormRequest
         return [
             "project_id" => 'required|numeric|exists:projects,id',
             "unit_id" => 'required|numeric|in:'. implode(',', array_keys(UnitHelper::getUnits())),
-            "name" => 'required|unique:plans,name|max:255',
+            "name" => 'required|max:255|unique:plans,name,'.$this->plan_id,
             "description" => 'nullable|max:1000',
             "base_amount" => 'required|numeric|min:0',
             "base_price" => 'required|numeric|min:0',

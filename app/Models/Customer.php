@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
@@ -12,13 +13,19 @@ class Customer extends Model
 
     protected $guarded = false;
 
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function scopeSearch(Builder $query, $search = '')
     {
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
                 $query->where('id', $search)
                     ->orWhere('name', 'like', "%$search%")
-                    ->orWhere('phone', 'like', "%$search%");
+                    ->orWhere('phone', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%");
             });
         }
     }

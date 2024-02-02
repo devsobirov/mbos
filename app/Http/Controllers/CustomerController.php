@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Invoice\ProjectResource;
 use App\Models\Customer;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $paginated = Customer::search(request('search'))->paginate(15);
-        return view('admin.customers.index', compact('paginated'));
+        $paginated = Customer::search(request('search'))->withCount('invoices')->paginate(15);
+        $projects = ProjectResource::collection(Project::whereHas('plans')->with('plans')->get());
+
+        return view('admin.customers.index', compact('paginated', 'projects'));
     }
 
     public function save(Request $request)
