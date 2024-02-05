@@ -12,7 +12,7 @@ class SavePlanRequest extends FormRequest
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             "project_id" => 'required|numeric|exists:projects,id',

@@ -7,7 +7,7 @@
             <h2 class="page-title">
                 Все проекты
                 @if ($paginated->total() > 0)
-                    (Показаны записи с {{ $paginated->firstItem() }} по {{ $paginated->lastItem() }} из {{ $paginated->total() }} всего.)
+                    (Показаны записи с {{ $paginated->firstItem() }} по {{ $paginated->lastItem() }} из всего {{ $paginated->total() }}.)
                 @endif
             </h2>
             <div class="col-auto ms-auto d-print-none">

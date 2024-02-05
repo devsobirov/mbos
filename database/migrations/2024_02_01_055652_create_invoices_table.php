@@ -16,16 +16,16 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->float('total_cost')->default(0);
-            $table->float('total_discount')->default(0);
+            $table->bigInteger('total_cost')->default(0);
+            $table->bigInteger('total_discount')->default(0);
 
-            $table->float('base_cost')->default(0);
-            $table->float('base_qty')->default(1);
-            $table->float('base_discount')->nullable();
+            $table->bigInteger('base_cost')->default(0);
+            $table->integer('base_qty')->default(1);
+            $table->bigInteger('base_discount')->nullable();
 
-            $table->float('extra_cost')->nullable();
-            $table->float('extra_discount')->nullable();
-            $table->float('extra_qty')->nullable();
+            $table->bigInteger('extra_cost')->nullable();
+            $table->bigInteger('extra_discount')->nullable();
+            $table->integer('extra_qty')->nullable();
 
             $table->boolean('lifetime')->default(false);
             $table->timestamp('start_date')->nullable();

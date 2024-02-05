@@ -2,62 +2,24 @@
 
 namespace App\Observers;
 
+use App\Helpers\LogTypeHelper;
 use App\Models\Invoice;
+use App\Traits\HasLoggableUpdates;
 
 class InvoiceObserver
 {
-    /**
-     * Handle the Invoice "created" event.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return void
-     */
+    use HasLoggableUpdates;
+
+    protected $groupName = 'Shartnoma';
+    protected $groupType = Invoice::class;
+
     public function created(Invoice $invoice)
     {
-        //
+        $this->logEvent($this->groupName. ' ID: '.$invoice->id. ' yaratildi', $invoice, LogTypeHelper::TYPE_SUCCESS);
     }
 
-    /**
-     * Handle the Invoice "updated" event.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return void
-     */
     public function updated(Invoice $invoice)
     {
-        //
-    }
-
-    /**
-     * Handle the Invoice "deleted" event.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return void
-     */
-    public function deleted(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Handle the Invoice "restored" event.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return void
-     */
-    public function restored(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Handle the Invoice "force deleted" event.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return void
-     */
-    public function forceDeleted(Invoice $invoice)
-    {
-        //
+        $this->logEvent($this->groupName. ' ID: '.$invoice->id. ' tahrirlandi', $invoice, LogTypeHelper::TYPE_WARNING, true);
     }
 }

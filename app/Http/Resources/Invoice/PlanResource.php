@@ -20,7 +20,7 @@ class PlanResource extends JsonResource
             'description' => $this->description,
             'amount' => $this->base_amount,
             'price' => $this->base_price,
-            'has_extra' => !$this->per_extra_amount && $this->per_extra_price,
+            'has_extra' => !!$this->per_extra_amount && !!$this->per_extra_price,
             'per_extra_amount' => $this->per_extra_amount,
             'per_extra_price' => $this->per_extra_price,
             'unit' => $this->getUnit(),

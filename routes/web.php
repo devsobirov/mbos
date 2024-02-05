@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -29,6 +30,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/save', 'save')->name('customers.save');
     });
 
+    Route::controller(InvoiceController::class)->prefix('invoices')->group(function () {
+        Route::get('/invoice/{invoice}', 'show')->name('invoices.show');
+        Route::post('/create', 'create')->name('invoices.create');
+    });
     Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
 
     Route::get('users', [UserController::class, 'index'])->name('users.index');
