@@ -5,12 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Invoice extends Model
 {
     use HasFactory;
 
     protected $guarded = false;
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'expire_date' => 'datetime',
+        'next_payment_date' => 'datetime',
+    ];
 
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 3;
@@ -30,5 +37,25 @@ class Invoice extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'plan_id')->withTrashed();
+    }
+
+    public function getLeftDaysAttribute(): string
+    {
+        $daysLeft = null;
+        if (!$this->lifetime && isset($this->expire_date)) {
+            // Calculate the difference in days
+            $daysLeft = Carbon::now()->diffInDays($this->expire_date);
+        }
+
+        switch (true) {
+            case $daysLeft > 0:
+                return "$daysLeft kundan so'ng";
+            case $daysLeft < 0:
+                return "$daysLeft kun oldin";
+            case $daysLeft === 0:
+                return "Bugun tugaydi";
+            default:
+                return "";
+        }
     }
 }

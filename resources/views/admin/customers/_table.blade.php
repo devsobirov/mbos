@@ -35,7 +35,7 @@
                         <x-svg.pen></x-svg.pen>
                     </a>
                     @if($i = $item->invoices_count)
-                        <a href="#" class="btn btn-warning">Shartnomalar ({{$i}})</a>
+                        <a href="{{route('invoices.customer', $item->id)}}" class="btn btn-warning">Shartnomalar ({{$i}})</a>
                     @endif
                     @include('admin.customers._form', ['item' => $item])
                     @include('admin.invoices._form', ['item' => $item])
@@ -60,7 +60,8 @@
             extra_qty: 0,
             start_date: null,
             expire_date: null,
-            notes: ''
+            notes: '',
+            next_payment_date: '',
         }
     }
     function invoiceFormData() {

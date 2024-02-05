@@ -31,9 +31,12 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(InvoiceController::class)->prefix('invoices')->group(function () {
-        Route::get('/invoice/{invoice}', 'show')->name('invoices.show');
+        Route::get('/', 'index')->name('invoices.index');
+        Route::get('/show/{invoice:number}', 'show')->name('invoices.show');
+        Route::get('/customer/{customer}', 'customer')->name('invoices.customer');
         Route::post('/create', 'create')->name('invoices.create');
     });
+
     Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
 
     Route::get('users', [UserController::class, 'index'])->name('users.index');

@@ -24,8 +24,9 @@ class SaveInvoiceRequest extends FormRequest
             'base_cost' => 'required|numeric',
             'extra_cost' => 'nullable|numeric',
             'total_cost' => 'required|numeric',
-            'start_date' => 'nullable',
+            'start_date' => 'required',
             'expire_date' => 'nullable',
+            'next_payment_date' => 'required',
             'lifetime' => 'boolean',
             'notes' => 'nullable|string',
         ];

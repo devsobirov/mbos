@@ -72,7 +72,7 @@
                             <input type="text" class="form-control" readonly :value="`- ${invoice.base_discount} sum`">
                         </div>
                     </div>
-                    <div class="row" x-cloak x-show="currentPlan && currentPlan.has_expiration">
+                    <div class="row" x-cloak x-show="currentPlan">
                         <div class="col-md-6 col-sm-12 mb-3">
                             <label class="form-label">Tarif plan kuchga kirish sanasi<sup class="fw-bold text-danger">*</sup></label>
                             <input type="date" class="form-control" name="start_date" x-model="invoice.start_date" @change="setExpirationDate()">
@@ -80,6 +80,10 @@
                         <div class="col-md-6 col-sm-12 mb-3">
                             <label class="form-label">Tarif plan tugash sanasi<sup class="fw-bold text-danger">*</sup></label>
                             <input type="date" class="form-control" name="expire_date" readonly x-model="invoice.expire_date">
+                        </div>
+                        <div class="col-md-6 col-sm-12 mb-3" x-show="currentPlan.has_expiration">
+                            <label class="form-label">Dastlabki to'lov uchun belgilangan sana<sup class="fw-bold text-danger">*</sup></label>
+                            <input type="date" class="form-control" name="next_payment_date" x-model="invoice.next_payment_date" required>
                         </div>
                     </div>
                     <div class="mb-3">

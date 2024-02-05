@@ -15,6 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
+            $table->string('number', 10)->unique();
 
             $table->bigInteger('total_cost')->default(0);
             $table->bigInteger('total_discount')->default(0);
@@ -30,6 +31,7 @@ class CreateInvoicesTable extends Migration
             $table->boolean('lifetime')->default(false);
             $table->timestamp('start_date')->nullable();
             $table->timestamp('expire_date')->nullable();
+            $table->timestamp('next_payment_date')->nullable();
 
             $table->unsignedBigInteger('customer_id')->index();
             $table->unsignedBigInteger('project_id');
