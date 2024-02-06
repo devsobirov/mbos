@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Requests\Invoice\SaveInvoiceRequest;
 
@@ -30,8 +31,10 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
-        $payments = [];
-        return view('admin.invoices.invoice', compact('invoice', 'payments'));
+        $payments = Payment::where('invoice_id', $invoice->id)->orderBy('id', 'desc')->get();
+        $lastPayment = $payments->first();
+
+        return view('admin.invoices.invoice', compact('invoice', 'payments', 'lastPayment'));
     }
 
     public function create(SaveInvoiceRequest $request)

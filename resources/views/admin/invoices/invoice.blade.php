@@ -36,3 +36,22 @@
         </div>
     </div>
 @endsection
+
+
+@section('custom_scripts')
+    <script>
+        function paymentFormData() {
+            return {
+                payment_for_date: null,
+                next_payment_date: null,
+                amount: 0,
+                amount_left: 0,
+                max_amount: null,
+                type: null,
+                isValid() {
+                    return true;
+                }
+            }
+        }
+    </script>
+@endsection

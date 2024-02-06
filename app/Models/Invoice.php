@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 class Invoice extends Model
@@ -37,6 +38,11 @@ class Invoice extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'plan_id')->withTrashed();
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'invoice_id');
     }
 
     public function getLeftDaysAttribute(): string
