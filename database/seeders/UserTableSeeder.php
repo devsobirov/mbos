@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
 {
     public function run()
     {
-        if (!DB::table('users')->where('email', 'adminpost')->exists()) {
+        if (!DB::table('users')->where('email', 'admin')->exists()) {
             User::create([
                 'name' => 'Админ',
                 'email' => 'admin',

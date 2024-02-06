@@ -32,7 +32,7 @@ class InvoiceController extends Controller
     public function show(Invoice $invoice)
     {
         $payments = Payment::where('invoice_id', $invoice->id)->orderBy('id', 'desc')->get();
-        $lastPayment = $payments->first();
+        $lastPayment = $invoice->lastPayment;
 
         return view('admin.invoices.invoice', compact('invoice', 'payments', 'lastPayment'));
     }

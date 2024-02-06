@@ -53,7 +53,7 @@
             <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
             <td>
                 <div class="d-flex align-items-center" style="gap:4px">
-                    <a href="{{route('invoices.show', $item->number)}}" class="btn btn-success" data-bs-target="#customer-form-{{$item->id}}" data-bs-toggle="modal" >
+                    <a href="{{route('invoices.show', $item->number)}}" class="btn btn-success">
                         Batafsil
                     </a>
                 </div>

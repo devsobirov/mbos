@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/show/{invoice:number}', 'show')->name('invoices.show');
         Route::get('/customer/{customer}', 'customer')->name('invoices.customer');
         Route::post('/create', 'create')->name('invoices.create');
+    });
+
+    Route::controller(PaymentController::class)->prefix('payments')->group(function () {
+        Route::get('/', 'index')->name('payments.index');
+        Route::post('/save/{invoice}', 'save')->name('payments.save');
     });
 
     Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');

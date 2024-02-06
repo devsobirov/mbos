@@ -37,7 +37,7 @@
                     </li>
 
                     <li class="nav-item @if(request()->routeIs('payments.*')) active @endif">
-                        <a class="nav-link" href="#" >
+                        <a class="nav-link" href="{{route('payments.index')}}" >
                             <span class="nav-link-icon d-md-none d-lg-inline-block"><x-svg.payment></x-svg.payment></span>
                             <span class="nav-link-title">To'lovlar</span>
                         </a>
