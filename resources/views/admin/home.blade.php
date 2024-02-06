@@ -8,7 +8,7 @@
             <div class="page-header d-print-none mt-5">
                 <div class="row g-2 align-items-center">
                     <div class="col">
-                        <h2 class="page-title">Some title</h2>
+                        <h2 class="page-title">Aktiv shartnomalar @if($total = $invoices->total())({{$total}})@endif</h2>
                     </div>
 
                     <div class="col-auto ms-auto d-print-none">
@@ -19,10 +19,15 @@
             </div>
 
             <div class="page-body">
-                <div class="card p-4">
-                    <div class="table-responsive text-center">
-                        Ku-ku
+                <div class="card">
+                    <div class="table-responsive">
+                        @include('admin.invoices._table-home', ['paginated' => $invoices])
                     </div>
+                    @if( $invoices->hasPages() )
+                        <div class="card-footer pb-0">
+                            {{ $invoices->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -58,9 +58,9 @@
                     <br>Chegirma: {{$item->base_discount}}
                 @endif
             </td>
-            <td>0</td>
-            <td>0</td>
-            <td>-</td>
+            <td>{{$item->total_cost - $item->calculateUnpaidAmount()}}</td>
+            <td>{{$item->calculateUnpaidAmount()}}</td>
+            <td>{{$lastPayment ? $lastPayment->created_at->format('d-M-Y') : '-'}}</td>
             <td>{{$item->next_payment_date ? $item->next_payment_date->format('d-M-Y') : ''}}</td>
             <td>XYZ</td>
             <td></td>

@@ -13,6 +13,7 @@ class InvoiceController extends Controller
     public function index()
     {
         $paginated = Invoice::with('project:id,name', 'plan:id,name', 'customer:id,name')
+            ->withSum('payments', 'amount')
             ->orderBy('status', 'asc')
             ->paginate(20);
 
@@ -23,6 +24,7 @@ class InvoiceController extends Controller
     {
         $paginated = Invoice::where('customer_id', $customer->id)
             ->with('project:id,name', 'plan:id,name')
+            ->withSum('payments', 'amount')
             ->orderBy('status', 'asc')
             ->paginate(20);
 

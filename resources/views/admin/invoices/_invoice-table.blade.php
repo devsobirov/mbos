@@ -18,7 +18,7 @@
     @forelse($paginated as $item)
         <tr>
             <td>
-                #{{$item->number}}
+                #{{$item->number}} <br>
                 ID: {{ $item->id }}
             </td>
             @isset($withCustomer)
@@ -37,7 +37,7 @@
                     <br>Chegirma: {{$item->base_discount}}
                 @endif
             </td>
-            <td>0 sum</td>
+            <td>{{$item->payments_sum_amount}}</td>
             <td>
                 <span class="badge badge-success">Aktiv</span>
             </td>

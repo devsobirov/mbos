@@ -11,7 +11,16 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        dd(Payment::get());
+        $paginated = Payment::with([
+            'customer:id,name',
+            'invoice' => function ($query) {
+                $query->select('id','number','project_id','plan_id')->with('project:id,name', 'plan:id,name');
+            }
+        ])
+            ->orderBy('id', 'desc')
+            ->paginate(20);
+
+        return view('admin.payments.index', compact('paginated'));
     }
 
     public function save(SavePaymentRequest $request, Invoice $invoice)

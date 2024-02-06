@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Project;
 use App\Observers\CustomerObserver;
 use App\Observers\InvoiceObserver;
+use App\Observers\PaymentObserver;
 use App\Observers\PlanObserver;
 use App\Observers\ProjectObserver;
 use Illuminate\Pagination\Paginator;
@@ -40,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         Plan::observe(PlanObserver::class);
         Customer::observe(CustomerObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        Payment::observe(PaymentObserver::class);
     }
 }

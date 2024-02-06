@@ -3,24 +3,26 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Loyiha</th>
-            <th>Miqdori</th>
-            <th>Boshlanish muddati</th>
-            <th>Tugash muddati</th>
+            <th>Reja sanasi</th>
+            <th>To'lov sanasi</th>
+            <th>To'lov turi</th>
+            <th>To'lov summasi</th>
+            <th>Qoldiq summa</th>
             <th>Status</th>
-            <th></th>
+            <th>Ma'sul</th>
         </tr>
         </thead>
         <tbody>
         @forelse($payments as $payment)
         <tr>
+            <td>#{{$payment->number}}</td>
+            <td>{{$payment->payment_for_date->format('d-M-Y')}}</td>
+            <td>{{$payment->created_at->format('d-M-Y')}}</td>
+            <td>{{$payment->getPaymentType()}}</td>
+            <td>{{$payment->amount}}</td>
+            <td>{{$payment->left_amount}}</td>
             <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
+            <td>{{$payment->author->name}}</td>
         </tr>
         @empty
         <tr>
