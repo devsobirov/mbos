@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\HasPaymentType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPaymentType;
 
     protected $guarded = false;
-
-    const TYPE_CASH = 1;
-    const TYPE_CARD  = 2;
-    const TYPE_TRANSACTION = 3;
+    protected $casts = [
+        'payment_for_date' => 'datetime'
+    ];
 
     public function invoice(): BelongsTo
     {

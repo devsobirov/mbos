@@ -4,7 +4,7 @@
         <th>ID</th>
         <th>Author</th>
         <th>Event / Message</th>
-        <th>Created at</th>
+        <th>Event time</th>
     </tr>
     </thead>
     <tbody>

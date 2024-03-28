@@ -18,7 +18,7 @@
     @forelse($paginated as $item)
         <tr>
             <td>
-                #{{$item->number}}
+                #{{$item->number}} <br>
                 ID: {{ $item->id }}
             </td>
             @isset($withCustomer)
@@ -37,7 +37,7 @@
                     <br>Chegirma: {{$item->base_discount}}
                 @endif
             </td>
-            <td>0 sum</td>
+            <td>{{$item->payments_sum_amount}}</td>
             <td>
                 <span class="badge badge-success">Aktiv</span>
             </td>
@@ -53,7 +53,7 @@
             <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
             <td>
                 <div class="d-flex align-items-center" style="gap:4px">
-                    <a href="{{route('invoices.show', $item->number)}}" class="btn btn-success" data-bs-target="#customer-form-{{$item->id}}" data-bs-toggle="modal" >
+                    <a href="{{route('invoices.show', $item->number)}}" class="btn btn-success">
                         Batafsil
                     </a>
                 </div>

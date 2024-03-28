@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 class Invoice extends Model
@@ -45,6 +46,11 @@ class Invoice extends Model
         return $this->hasMany(Payment::class, 'invoice_id');
     }
 
+    public function lastPayment(): HasOne
+    {
+        return $this->hasOne(Payment::class, 'invoice_id')->latest();
+    }
+
     public function getLeftDaysAttribute(): string
     {
         $daysLeft = null;
@@ -64,4 +70,10 @@ class Invoice extends Model
                 return "";
         }
     }
+
+    public function calculateUnpaidAmount(): int
+    {
+        return $this->lastPayment ? $this->lastPayment->left_amount : $this->total_cost;
+    }
+
 }

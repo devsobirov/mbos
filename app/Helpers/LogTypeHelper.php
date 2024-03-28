@@ -5,6 +5,8 @@ namespace App\Helpers;
 
 
 use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Project;
 
@@ -17,7 +19,9 @@ class LogTypeHelper
 
     const GROUP_PROJECT = Project::class;
     const GROUP_PLAN = Plan::class;
-    const GROUP_CUSTOMER = 7;
+    const GROUP_CUSTOMER = Customer::class;
+    const GROUP_INVOICE = Invoice::class;
+    const GROUP_PAYMENT = Payment::class;
 
     const TYPE_LIST = [
         self::TYPE_SUCCESS => 'Создание или Успешное действие',
@@ -34,9 +38,11 @@ class LogTypeHelper
     ];
 
     const GROUP_LIST = [
-        Project::class => 'Project',
-        Plan::class => 'Plan',
-        Customer::class => 'Customer',
+        Invoice::class => 'Shartnomalar',
+        Payment::class => 'To\'lovlar',
+        Customer::class => 'Mijozlar',
+        Project::class => 'Loyihalar',
+        Plan::class => 'Tarf rejalar',
     ];
 
     public static function getTypes(): array

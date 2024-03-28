@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -38,15 +39,19 @@ Route::middleware(['auth', 'worker'])->group(function () {
         Route::post('/save', 'save')->name('invoices.save');
     });
 
+    Route::controller(PaymentController::class)->prefix('payments')->group(function () {
+        Route::get('/', 'index')->name('payments.index');
+        Route::post('/save/{invoice}', 'save')->name('payments.save');
+    });
+
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
-});
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::post('users/save/{user?}', [UserController::class, 'save'])->name('users.save');
+    Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::post('users/save/{user?}', [UserController::class, 'save'])->name('users.save');
 
-    Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
-});
+        Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
+    });
 
-\Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);
+});
