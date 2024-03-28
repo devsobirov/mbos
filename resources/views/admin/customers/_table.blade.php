@@ -38,7 +38,7 @@
                         <a href="{{route('invoices.customer', $item->id)}}" class="btn btn-warning">Shartnomalar ({{$i}})</a>
                     @endif
                     @include('admin.customers._form', ['item' => $item])
-                    @include('admin.invoices._form', ['item' => $item])
+                    @include('admin.customers._create_invoice_form', ['item' => $item])
                 </div>
             </td>
         </tr>

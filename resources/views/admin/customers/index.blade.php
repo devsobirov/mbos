@@ -38,94 +38,16 @@
 @endsection
 
 <script>
-    let initialProjects = @json($projects);
-
-    function defaultInvoice() {
-        return {
-            base_qty: 1,
-            base_cost: null,
-            base_discount: 0,
-            extra_cost: 0,
-            extra_discount: 0,
-            extra_qty: 0,
-            start_date: null,
-            expire_date: null,
-            notes: '',
-            next_payment_date: '',
-        }
-    }
     function invoiceFormData() {
         return {
-            projectList: [],
-            plansList: [],
-            currentPlan: false,
-            project: null,
-            plan: null,
-            form: {project_id: null, plan_id: null},
-            invoice: defaultInvoice(),
-            init() {
-                this.projectList = initialProjects;
-            },
-            setPlans() {
-                let plans = []
-                if (this.form.project_id) {
-                    this.projectList.forEach(item => {
-                        if (item.id === parseInt(this.form.project_id)) {
-                            plans = item.plans
-                        }
-                    })
-                }
-
-                return this.plansList = plans;
-            },
-            setCurrentPlan() {
-                this.invoice = defaultInvoice();
-                if (this.plansList.length) {
-                    this.plansList.forEach(item => {
-                        if (item.id === parseInt(this.form.plan_id)) {
-                            this.currentPlan = item;
-                        }
-                    })
-                }
-            },
-            calcBaseCost() {
-                if (this.currentPlan) {
-                    return Math.floor(this.invoice.base_qty * this.currentPlan.price);
-                }
-
-                return 0;
-            },
-            calcExtraCost() {
-                if (this.currentPlan && this.currentPlan.has_extra) {
-                    return Math.floor(this.invoice.extra_qty * this.invoice.base_qty * this.currentPlan.per_extra_price);
-                }
-
-                return 0;
-            },
-            calcTotalCost() {
-                return Math.floor(
-                    this.calcBaseCost() + this.calcExtraCost() - this.invoice.base_discount - this.invoice.extra_discount
-                );
-            },
-            setExpirationDate() {
-                if (this.invoice.base_qty && this.invoice.start_date) {
-                    // Parse the start date string to a Date object
-                    const startDateObj = new Date(this.invoice.start_date);
-
-                    // Add the base quantity (in months) to the start date
-                    startDateObj.setMonth(startDateObj.getMonth() + parseInt(this.invoice.base_qty));
-
-                    // Format the modified date as a string in the format "YYYY-MM-DD"
-                    this.invoice.expire_date = startDateObj.toISOString().split('T')[0];
-                    return true;
-                }
-                this.invoice.expire_date = null;
+            url: null,
+            next() {
+                this.isValid()
+                    ? window.location = this.url
+                    : alert('Davom qilish uchun loyihani tanlang!');
             },
             isValid() {
-                return !!this.invoice.base_qty
-                    && !!this.form.project_id
-                    && !!this.form.plan_id
-                    && (this.currentPlan && (!this.currentPlan.has_expiration || (this.invoice.start_date && this.invoice.expire_date)))
+                return !!this.url;
             }
         }
     }

@@ -20,23 +20,11 @@ class CreateInvoicesTable extends Migration
             $table->bigInteger('total_cost')->default(0);
             $table->bigInteger('total_discount')->default(0);
 
-            $table->bigInteger('base_cost')->default(0);
-            $table->integer('base_qty')->default(1);
-            $table->bigInteger('base_discount')->nullable();
+            $table->bigInteger('fixed_discount')->nullable();
 
-            $table->bigInteger('extra_cost')->nullable();
-            $table->bigInteger('extra_discount')->nullable();
-            $table->integer('extra_qty')->nullable();
-
-            $table->boolean('lifetime')->default(false);
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('expire_date')->nullable();
             $table->timestamp('next_payment_date')->nullable();
-
             $table->unsignedBigInteger('customer_id')->index();
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('plan_id');
-            $table->unsignedBigInteger('affiliate_id')->nullable();
 
             $table->integer('status')->nullable()->default(\App\Models\Invoice::STATUS_DRAFT);
             $table->text('notes')->nullable();

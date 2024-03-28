@@ -34,7 +34,8 @@ Route::middleware(['auth', 'worker'])->group(function () {
         Route::get('/', 'index')->name('invoices.index');
         Route::get('/show/{invoice:number}', 'show')->name('invoices.show');
         Route::get('/customer/{customer}', 'customer')->name('invoices.customer');
-        Route::post('/create', 'create')->name('invoices.create');
+        Route::get('/create/{customer}/{project}', 'create')->name('invoices.create');
+        Route::post('/save', 'save')->name('invoices.save');
     });
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
