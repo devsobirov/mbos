@@ -9,7 +9,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'worker'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -37,13 +37,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/create', 'create')->name('invoices.create');
     });
 
-    Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
-
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
 });
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::post('users/save/{user?}', [UserController::class, 'save'])->name('users.save');
 
+    Route::get('logs', [\App\Http\Controllers\LogController::class, 'index'])->name('logs.index');
+});
 
 \Auth::routes(['register' => false, 'reset' => false, 'verify' => false]);

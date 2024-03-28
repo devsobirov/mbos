@@ -43,12 +43,20 @@
                         </a>
                     </li>
 
+                    @if(auth()->user()->isAdmin())
                     <li class="nav-item @if(request()->routeIs('logs.*')) active @endif">
                         <a class="nav-link" href="{{ route('logs.index') }}" >
                             <span class="nav-link-icon d-md-none d-lg-inline-block"><x-svg.history></x-svg.history></span>
                             <span class="nav-link-title">Log</span>
                         </a>
                     </li>
+                        <li class="nav-item @if(request()->routeIs('users.*')) active @endif">
+                            <a class="nav-link" href="{{ route('users.index') }}" >
+                                <span class="nav-link-icon d-md-none d-lg-inline-block"><x-svg.users></x-svg.users></span>
+                                <span class="nav-link-title">Users</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

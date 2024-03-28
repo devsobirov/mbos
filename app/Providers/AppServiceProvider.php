@@ -6,10 +6,12 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Plan;
 use App\Models\Project;
+use App\Models\User;
 use App\Observers\CustomerObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\PlanObserver;
 use App\Observers\ProjectObserver;
+use App\Observers\UserObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -40,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         Plan::observe(PlanObserver::class);
         Customer::observe(CustomerObserver::class);
         Invoice::observe(InvoiceObserver::class);
+        User::observe(UserObserver::class);
     }
 }

@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Созранить</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
 
             </form>
