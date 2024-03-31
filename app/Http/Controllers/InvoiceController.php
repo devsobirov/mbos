@@ -42,7 +42,10 @@ class InvoiceController extends Controller
 
         $services = $invoice->services;
         $subscriptions = $invoice->subscriptions;
-        return view('admin.invoices.invoice', compact('invoice', 'payments', 'lastPayment', 'services', 'subscriptions'));
+        $plans = PlanResource::collection($invoice->project->plans->where('is_expirable', true));
+        return view('admin.invoices.invoice',
+            compact('invoice', 'payments', 'lastPayment', 'services', 'subscriptions', 'plans')
+        );
     }
 
     public function create(Customer $customer, Project $project)

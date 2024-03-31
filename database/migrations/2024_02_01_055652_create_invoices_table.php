@@ -19,6 +19,7 @@ class CreateInvoicesTable extends Migration
 
             $table->bigInteger('total_cost')->default(0);
             $table->bigInteger('total_discount')->default(0);
+            $table->bigInteger('total_cancelled')->default(0);
 
             $table->bigInteger('percent_discount')->nullable();
             $table->bigInteger('percent_discount_sum')->nullable();

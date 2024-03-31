@@ -17,8 +17,6 @@ class Invoice extends Model
     protected $guarded = false;
 
     protected $casts = [
-        'start_date' => 'datetime',
-        'expire_date' => 'datetime',
         'next_payment_date' => 'datetime',
     ];
 
@@ -56,26 +54,6 @@ class Invoice extends Model
     public function lastPayment(): HasOne
     {
         return $this->hasOne(Payment::class, 'invoice_id')->latest();
-    }
-
-    public function getLeftDaysAttribute(): string
-    {
-        $daysLeft = null;
-        if (!$this->lifetime && isset($this->expire_date)) {
-            // Calculate the difference in days
-            $daysLeft = Carbon::now()->diffInDays($this->expire_date);
-        }
-
-        switch (true) {
-            case $daysLeft > 0:
-                return "$daysLeft kundan so'ng";
-            case $daysLeft < 0:
-                return "$daysLeft kun oldin";
-            case $daysLeft === 0:
-                return "Bugun tugaydi";
-            default:
-                return "";
-        }
     }
 
     public function calculateUnpaidAmount(): int

@@ -22,7 +22,7 @@ class SaveInvoiceRequest extends FormRequest
             'plan.base_price' => 'required|numeric',
             'plan.cost' => 'required|numeric',
             'plan.start_date' => 'required',
-            'plan.expire_date' => 'nullable',
+            'plan.expire_date' => 'required',
         ];
 
         $serviceRules = [
@@ -60,13 +60,14 @@ class SaveInvoiceRequest extends FormRequest
             $plan = Plan::withTrashed()->findOrFail($this->plan_id);
 
             $plan_id = $this->plan_id;
-            $base_price = (int) ($plan->base_price * $this->base_qty);
-            $extra_price = (int) ($plan->per_extra_price * $this->extra_qty * $this->base_qty);
-            $cost = $base_price + $extra_price;
             $qty = $this->base_qty;
+            $extra_qty = $this->extra_qty;
+            $base_price = (int) ($plan->base_price * $this->base_qty);
+            $extra_price = (int) ($plan->per_extra_price * $qty * $extra_qty);
+            $cost = $base_price + $extra_price;
             $start_date = $this->start_date;
             $expire_date = $this->expire_date;
-            $plan = compact('plan_id', 'qty', 'base_price', 'extra_price', 'cost', 'start_date', 'expire_date');
+            $plan = compact('plan_id', 'qty', 'extra_qty','base_price', 'extra_price', 'cost', 'start_date', 'expire_date');
         }
 
         if (!empty($this->services)) {

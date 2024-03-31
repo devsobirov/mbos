@@ -7,6 +7,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,14 @@ Route::middleware(['auth', 'worker'])->group(function () {
     Route::controller(PaymentController::class)->prefix('payments')->group(function () {
         Route::get('/', 'index')->name('payments.index');
         Route::post('/save/{invoice}', 'save')->name('payments.save');
+    });
+
+    Route::controller(SubscriptionController::class)->prefix('invoice-items')->group(function () {
+        Route::post('update-subs/{subscription}', 'updateSubs')->name('invoice-item.update.subs');
+        Route::post('add-subs/{invoice}', 'addSubs')->name('invoice-item.add-subs');
+
+        Route::post('update-service/{service}', 'updateService')->name('invoice-item.update-service');
+        Route::post('add-service/{invoice}', 'addService')->name('invoice-item.add-service');
     });
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');

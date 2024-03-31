@@ -155,8 +155,6 @@
     </div>
 
     <script>
-
-        const list = [1,3,4,'8'];
         function defaultInvoice() {
             return {
                 base_qty: 1,

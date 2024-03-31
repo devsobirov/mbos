@@ -20,7 +20,7 @@ class CreateServicesTable extends Migration
 
             $table->integer('status')->nullable()->default(\App\Models\Plan::STATUS_ACTIVE);
             $table->timestamp('cancelled_at')->nullable();
-            $table->timestamp('cancelled_with_paid_sum')->nullable();
+            $table->integer('cancelled_with_paid_sum')->nullable();
 
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('plan_id');

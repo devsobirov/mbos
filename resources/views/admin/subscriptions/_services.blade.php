@@ -19,7 +19,7 @@
                 <td>{{$service->qty}} {{$service->plan->getUnit()}}</td>
                 <td>{{$service->cost}}</td>
                 <td>
-                    <span class="badge {{$service->statusClass()}}">{{$service->getStatusName()}}</span>
+                    <span class="badge {{$service->getStatusClass()}}">{{$service->getStatusName()}}</span>
                 </td>
                 <td>
                     Yaratilgan: {{$service->created_at ? $service->created_at->format('Y-m-d H:i') : '-'}} <br>
