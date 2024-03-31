@@ -38,7 +38,7 @@ class Invoice extends Model
 
     public function services(): HasMany
     {
-        return $this->hasMany(Service::class, 'invoice_id', 'id');
+        return $this->hasMany(Service::class, 'invoice_id', 'id')->orderByDesc('id');
     }
 
     public function subscriptions(): HasMany
@@ -58,7 +58,8 @@ class Invoice extends Model
 
     public function calculateUnpaidAmount(): int
     {
-        return $this->lastPayment ? $this->lastPayment->left_amount : $this->total_cost;
+        //return $this->lastPayment ? $this->lastPayment->left_amount : $this->total_cost;
+        return  $this->total_cost - $this->payments()->sum('amount');
     }
 
 }

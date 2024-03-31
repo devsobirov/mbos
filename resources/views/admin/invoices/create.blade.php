@@ -39,12 +39,12 @@
 
                                             <div x-cloak x-show="services.includes(service.id.toString())">
                                                 <div class="d-flex align-items-center" style="gap: 10px;">
-                                                    <input type="number" style="width: 80px" class="form-control" :name="'services[' + service.id + '][qty]'" required x-model="service.amount" min="1">
+                                                    <input type="number" style="width: 80px" class="form-control" :name="'services[' + service.id + '][qty]'" required x-model="service.amount" min="1" :disabled="!services.includes(service.id.toString())">
                                                     <div x-text="service.unit"></div>
                                                     <div x-text="'+' + getServiceCost(service.id) + ' UZS'"></div>
                                                 </div>
                                             </div>
-                                            <input type="hidden" :name="'services[' + service.id + '][cost]'" :value="getServiceCost(service.id)">
+                                            <input type="hidden" :name="'services[' + service.id + '][cost]'" :value="getServiceCost(service.id)" :disabled="!services.includes(service.id.toString())">
                                         </div>
                                     </template>
                                 </div>

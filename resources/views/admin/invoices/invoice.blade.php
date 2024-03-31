@@ -28,7 +28,8 @@
 
             <div class="d-flex justify-content-between mb-3">
                 <h3 class="card-title">Xizmatlar ({{$services->count()}})</h3>
-                <a href="#" class="btn btn-azure" data-bs-target="#payment-form" data-bs-toggle="modal" title="Xizmat kirirish"><x-svg.plus></x-svg.plus> Xizmat kirirish</a>
+                <a href="#" class="btn btn-azure" data-bs-target="#service-form-add" data-bs-toggle="modal" title="Xizmat kirirish"><x-svg.plus></x-svg.plus> Xizmat kirirish</a>
+                @include('admin.subscriptions._service-form-add', ['services' => $serviceList])
             </div>
 
             <div class="card mb-4">

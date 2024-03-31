@@ -84,6 +84,36 @@ class SubscriptionController extends Controller
         return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
     }
 
+    public function addService(Request $request, Invoice $invoice)
+    {
+        $request->validate([
+            'services' => 'nullable|array',
+            'services.*.qty' => 'numeric|min:1',
+            'services.*.cost' => 'numeric|min:1',
+            'base_discount' => 'nullable|numeric'
+        ]);
+
+        $cost = 0;
+
+        if (!empty($request->services)) {
+            foreach ($request->services as $id => $data) {
+                $cost += $data['cost'];
+
+                $data['plan_id'] = $id;
+                $data['invoice_id'] = $invoice->id;
+                Service::create($data);
+            }
+        }
+
+        $total = $invoice->total_cost;
+        $invoice->total_cost = $total + ($cost - (int) $request->base_discount);
+        $invoice->next_payment_date = $request->next_payment_date;
+        $invoice->total_discount += (int) $request->base_discount;
+        $invoice->save();
+
+        return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
+    }
+
     public function updateService(Request $request, Service $service)
     {
         if ($service->status == Plan::STATUS_ACTIVE) {
