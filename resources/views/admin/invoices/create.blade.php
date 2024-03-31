@@ -8,7 +8,7 @@
                 <div class="col">
                     <!-- Page pre-title -->
                     <div class="page-pretitle">
-                        Shartnomasi yaratish
+                        Shartnoma yaratish
                     </div>
                     <h2 class="page-title">
                         {{ $customer->name }} uchun {{$project->name}} loyihasi shartnomasi yaratish
@@ -28,15 +28,26 @@
                         <div class="row">
                             <label class="form-label">Xizmat turlarini tanlang</label>
                             <div class="col-md-12">
-                                @foreach($services as $service)
-                                <div>
-                                    <label class="form-check">
-                                        <input class="form-check-input" name="services[]" type="checkbox" value="{{$service->id}}" x-model="services">
-                                        <span class="form-check-label">{{$service->name}}</span>
-                                        <span class="form-check-description">{{$service->decription}}</span>
-                                    </label>
+                                <div class="col-md-12">
+                                    <template x-for="service in serviceList" :key="service.id">
+                                        <div class="d-flex align-items-baseline mb-2" style="gap: 20px">
+                                            <label class="form-check">
+                                                <input type="checkbox" class="form-check-input" x-model="services" :name="'services[' + service.id + ']'" :value="service.id">
+                                                <span class="form-check-label" x-text="service.name"></span>
+                                                <span class="form-check-description" x-text="service.description"></span>
+                                            </label>
+
+                                            <div x-cloak x-show="services.includes(service.id.toString())">
+                                                <div class="d-flex align-items-center" style="gap: 10px;">
+                                                    <input type="number" style="width: 80px" class="form-control" :name="'services[' + service.id + '][qty]'" required x-model="service.amount" min="1">
+                                                    <div x-text="service.unit"></div>
+                                                    <div x-text="'+' + getServiceCost(service.id) + ' UZS'"></div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" :name="'services[' + service.id + '][cost]'" :value="getServiceCost(service.id)">
+                                        </div>
+                                    </template>
                                 </div>
-                                @endforeach
                             </div>
                             <div class="col-md-12">
                                 <div class="mb-3" x-show="form.project_id" x-cloak>
@@ -79,16 +90,7 @@
                                     <input type="hidden" name="extra_cost" x-model="calcBaseCost()">
                                 </div>
                             </div>
-                            <div class="row" x-cloak x-show="currentPlan && calcTotalCost()">
-                                <div class="col-md-4 col-sm-12 mb-3">
-                                    <label class="form-label">Chegirma qo'llash<sup class="fw-bold text-danger">*</sup></label>
-                                    <input type="number" class="form-control" name="base_discount" x-model="invoice.base_discount" min="0" :max="calcBaseCost()+calcExtraCost()-1000">
-                                </div>
-                                <div class="col-md-8 col-sm-12 mb-3" x-cloak x-show="invoice.base_discount">
-                                    <label class="form-label">Chegirma <sup class="fw-bold text-danger">*</sup></label>
-                                    <input type="text" class="form-control" readonly :value="`- ${invoice.base_discount} sum`">
-                                </div>
-                            </div>
+
                             <div class="row" x-cloak x-show="currentPlan">
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <label class="form-label">Tarif plan kuchga kirish sanasi<sup class="fw-bold text-danger">*</sup></label>
@@ -98,29 +100,50 @@
                                     <label class="form-label">Tarif plan tugash sanasi<sup class="fw-bold text-danger">*</sup></label>
                                     <input type="date" class="form-control" name="expire_date" readonly x-model="invoice.expire_date">
                                 </div>
-                                <div class="col-md-6 col-sm-12 mb-3" x-show="currentPlan.has_expiration">
-                                    <label class="form-label">Dastlabki to'lov uchun belgilangan sana<sup class="fw-bold text-danger">*</sup></label>
-                                    <input type="date" class="form-control" name="next_payment_date" x-model="invoice.next_payment_date" required>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Izoh</label>
-                                <textarea class="form-control" name="notes" data-bs-toggle="autosize" placeholder="Izoh…" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 59.6px;"></textarea>
-                            </div>
-
-                            <hr>
-                            <div class="mb-3 w-50">
-                                <p class="d-flex justify-content-between mb-1"><span>Asosiy narx:</span><span x-text="`+ ${calcBaseCost()}`"></span></p>
-                                <p class="justify-content-between mb-1" :class="currentPlan.has_extra ? 'd-flex' : 'd-none'"><span>Qo'shimcha narx:</span><span x-text="`+ ${calcExtraCost()}`"></span></p>
-                                <p class="justify-content-between mb-1" :class="invoice.base_discount ? 'd-flex' : 'd-none'"><span>Chegirma: </span><span x-text="`- ${invoice.base_discount}`"></span></p>
-                                <p class="d-flex justify-content-between mb-1"><span>Jami: </span> <span x-text="calcTotalCost()"></span></p>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                            Bekor qilish
-                        </a>
+                    <div class="mb-3 w-50" x-cloak x-show="services.length || currentPlan">
+
+                        <div class="row" x-cloak x-show="calcTotalCost()">
+                            <div class="row" x-cloak x-show="calcTotalCost()">
+                                <div class="col-md-4 col-sm-12 mb-3">
+                                    <label class="form-label">Chegirma qo'llash - %<sup class="fw-bold text-danger">*</sup></label>
+                                    <input type="number" class="form-control" name="percent_discount" x-model="invoice.percent_discount" min="0" max="99">
+                                    <input type="hidden" name="percent_discount_sum" :value="calcPercentDiscount()">
+                                </div>
+                                <div class="col-md-8 col-sm-12 mb-3" x-cloak x-show="invoice.percent_discount">
+                                    <label class="form-label">Chegirma <sup class="fw-bold text-danger">*</sup></label>
+                                    <input type="text" class="form-control" readonly :value="`- ${calcPercentDiscount()} UZS`">
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 mb-3">
+                                <label class="form-label">Chegirma qo'llash - UZS<sup class="fw-bold text-danger">*</sup></label>
+                                <input type="number" class="form-control" name="fixed_discount" x-model="invoice.base_discount" min="0" :max="calcTotalCost()-1000">
+                            </div>
+                            <div class="col-md-8 col-sm-12 mb-3" x-cloak x-show="invoice.base_discount">
+                                <label class="form-label">Chegirma <sup class="fw-bold text-danger">*</sup></label>
+                                <input type="text" class="form-control" readonly :value="`- ${invoice.base_discount} UZS`">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label class="form-label">Dastlabki to'lov uchun belgilangan sana<sup class="fw-bold text-danger">*</sup></label>
+                            <input type="date" class="form-control" name="next_payment_date" x-model="invoice.next_payment_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Izoh</label>
+                            <textarea class="form-control" name="notes" data-bs-toggle="autosize" placeholder="Izoh…" style="overflow: hidden; overflow-wrap: break-word; resize: none; text-align: start; height: 59.6px;"></textarea>
+                        </div>
+                        <hr>
+                        <p class="d-flex justify-content-between mb-1" :class="services.length ? 'd-flex' : 'd-none'"><span>Xizamtlar:</span><span x-text="`+ ${getServicesSum()} UZS`"></span></p>
+                        <p class="d-flex justify-content-between mb-1" :class="currentPlan ? 'd-flex' : 'd-none'"><span>Tarif (asosiy):</span><span x-text="`+ ${calcBaseCost()} UZS`"></span></p>
+                        <p class="justify-content-between mb-1" :class="currentPlan.has_extra ? 'd-flex' : 'd-none'"><span>Tarif (qo'shimcha):</span><span x-text="`+ ${calcExtraCost()}`"></span></p>
+                        <p class="justify-content-between mb-1" :class="calcTotalDiscount() ? 'd-flex' : 'd-none'"><span>Chegirma (jami): </span><span x-text="`- ${calcTotalDiscount()}`"></span></p>
+                        <p class="d-flex justify-content-between mb-1"><span>Jami to'lovga: </span> <span x-text="calcTotalCost()"></span></p>
+                    </div>
+                    <div class="modal-footer" x-show="isValid()">
                         <button class="btn btn-primary ms-auto" :class="isValid() ? '' : 'hidden'"
                                 @click="if (!confirm('Shartnomani o\'chirish mumkin emas, agar kiritlgan ma\'lumotlar tog\'riligiga amin bo\'lsangiz, jarayonni tasdiqlang'))return false;"
                         ><x-svg.plus></x-svg.plus> Saqlash
@@ -133,11 +156,13 @@
 
     <script>
 
+        const list = [1,3,4,'8'];
         function defaultInvoice() {
             return {
                 base_qty: 1,
                 base_cost: null,
                 base_discount: 0,
+                percent_discount: 0,
                 extra_cost: 0,
                 extra_discount: 0,
                 extra_qty: 0,
@@ -149,8 +174,9 @@
         }
         function invoiceFormData() {
             return {
+                services: [],
                 serviceList: [],
-                subscriptions: [],
+                plansList: [],
                 currentPlan: false,
                 project: null,
                 plan: null,
@@ -158,7 +184,25 @@
                 invoice: defaultInvoice(),
                 init() {
                     this.serviceList = @json($services);
-                    this.subscriptions = @json($subscriptions);
+                    this.plansList = @json($subscriptions);
+                },
+                getServiceCost(id) {
+                    let cost = 0;
+                    if (this.services.length) {
+                        this.serviceList.forEach(i => {
+                            if (i.id === parseInt(id)) {
+                                cost = i.price * i.amount;
+                            }
+                        })
+                    }
+                    return Math.round(cost);
+                },
+                getServicesSum() {
+                  let sum = 0;
+                  if (this.services.length) {
+                      this.services.forEach(i => sum += this.getServiceCost(i))
+                  }
+                  return Math.round(sum);
                 },
                 setCurrentPlan() {
                     this.invoice = defaultInvoice();
@@ -184,9 +228,28 @@
 
                     return 0;
                 },
+                calcPercentDiscount() {
+                    if (this.invoice.percent_discount) {
+                        return Math.round(
+                            (this.getServicesSum() + this.calcBaseCost() + this.calcExtraCost()) * this.invoice.percent_discount /100
+                        );
+                    }
+
+                    return 0;
+                },
+                calcTotalCostWithoutDiscount() {
+                    return Math.floor(
+                        this.getServicesSum() + this.calcBaseCost() + this.calcExtraCost()
+                    );
+                },
+                calcTotalDiscount() {
+                    return Math.round(
+                        parseInt(this.invoice.base_discount) + this.calcPercentDiscount()
+                    )
+                },
                 calcTotalCost() {
                     return Math.floor(
-                        this.calcBaseCost() + this.calcExtraCost() - this.invoice.base_discount - this.invoice.extra_discount
+                        this.calcTotalCostWithoutDiscount() - this.calcTotalDiscount()
                     );
                 },
                 setExpirationDate() {
@@ -206,8 +269,11 @@
                 isValid() {
                     return !!this.invoice.base_qty
                         && !!this.form.project_id
-                        && !!this.form.plan_id
-                        && (this.currentPlan && (!this.currentPlan.has_expiration || (this.invoice.start_date && this.invoice.expire_date)))
+                        &&  (
+                            this.services.length ||
+                            (this.currentPlan && this.invoice.start_date && this.invoice.expire_date)
+                        )
+                        && this.invoice.next_payment_date
                 }
             }
         }

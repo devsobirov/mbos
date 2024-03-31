@@ -23,18 +23,12 @@ class CreateSubscriptionsTable extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('expire_date')->nullable();
 
-            $table->timestamp('start_date')->nullable();
-            $table->timestamp('expire_date')->nullable();
-
             $table->bigInteger('base_price')->default(0);
             $table->bigInteger('extra_price')->nullable();
             $table->integer('extra_qty')->nullable();
 
 
             $table->integer('qty')->default(1);
-
-            $table->bigInteger('percent_discount')->nullable();
-            $table->bigInteger('percent_discount_sum')->nullable();
             $table->bigInteger('cost');
 
             $table->timestamps();

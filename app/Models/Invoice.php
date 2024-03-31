@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
@@ -36,9 +37,20 @@ class Invoice extends Model
         return $this->belongsTo(Project::class, 'project_id')->withTrashed();
     }
 
+    /** @deprecated  */
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'plan_id')->withTrashed();
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Plan::class,
+            'invoice_plan',
+            'invoice_id',
+            'plan_id'
+        )->withPivot('qty', 'cost');
     }
 
     public function payments(): HasMany

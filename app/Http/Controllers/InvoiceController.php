@@ -8,8 +8,8 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use App\Http\Requests\Invoice\SaveInvoiceRequest;
+use App\Models\Subscription;
 
 class InvoiceController extends Controller
 {
@@ -57,7 +57,27 @@ class InvoiceController extends Controller
 
     public function save(SaveInvoiceRequest $request)
     {
-        $invoice = Invoice::create($request->validated());
+        $invoice = Invoice::create($request->input([
+            "project_id",
+            "customer_id",
+            "fixed_discount",
+            "percent_discount",
+            "percent_discount_sum",
+            "total_cost",
+            "next_payment_date",
+            "notes",
+        ]));
+
+        if (!empty($request->plan)) {
+            $subscription = $request->plan;
+            $subscription['invoice_id'] = $invoice->id;
+            Subscription::create($subscription);
+        }
+
+        if (!empty($request->servives)) {
+            $invoice->services()->sync($request->services);
+        }
+
         return redirect()->route('invoices.show', $invoice->number)
             ->with('success', "Muvaffaqiyatli saqlandi");
     }

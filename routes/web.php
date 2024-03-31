@@ -55,3 +55,5 @@ Route::middleware(['auth', 'worker'])->group(function () {
     });
 
 });
+
+Auth::routes(['reset' => false, 'verify' => false, 'register' => false]);

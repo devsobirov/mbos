@@ -11,7 +11,7 @@ class UserObserver
     use HasLoggableUpdates;
 
     protected $groupType = User::class;
-    protected $groupName = 'Project';
+    protected $groupName = 'USER';
 
     public function created(User $user)
     {

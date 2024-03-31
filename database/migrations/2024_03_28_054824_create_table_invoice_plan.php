@@ -16,7 +16,6 @@ class CreateTableInvoicePlan extends Migration
         Schema::create('table_invoice_plan', function (Blueprint $table) {
             $table->id();
             $table->integer('qty');
-            $table->integer('price');
             $table->integer('cost');
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('plan_id');
