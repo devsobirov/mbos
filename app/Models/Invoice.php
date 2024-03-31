@@ -23,8 +23,23 @@ class Invoice extends Model
     const STATUS_DRAFT = 1;
     const STATUS_PENDING = 3;
     const STATUS_ACTIVE = 5;
-    const STATUS_ARCHIVE = 10;
+    const STATUS_CLOSED = 10;
     const STATUS_CANCELLED = 15;
+
+    const STATUSES = [
+        self::STATUS_ACTIVE => [
+            'name' => 'aktiv',
+            'style' => 'bg-success'
+        ],
+        self::STATUS_CLOSED => [
+            'name' => 'yakunlangan',
+            'style' => 'bg-secondary'
+        ],
+        self::STATUS_CANCELLED => [
+            'name' => 'Bekor qilingan',
+            'style' => 'bg-danger'
+        ],
+    ];
 
     public function customer(): BelongsTo
     {
@@ -62,4 +77,25 @@ class Invoice extends Model
         return  $this->total_cost - $this->payments()->sum('amount');
     }
 
+    public function getStatusName(): string
+    {
+        if (array_key_exists($this->status, self::STATUSES)) {
+            return ucfirst(self::STATUSES[$this->status]['name']);
+        }
+
+        return 'Noma\'lum';
+    }
+
+    public function getStatusClass(): string
+    {
+        if (array_key_exists($this->status, self::STATUSES)) {
+            return self::STATUSES[$this->status]['style'];
+        }
+        return '';
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
 }

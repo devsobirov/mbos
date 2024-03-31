@@ -29,7 +29,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('customer_id')->index();
             $table->unsignedBigInteger('project_id');
 
-            $table->integer('status')->nullable()->default(\App\Models\Invoice::STATUS_DRAFT);
+            $table->integer('status')->nullable()->default(\App\Models\Invoice::STATUS_ACTIVE);
             $table->text('notes')->nullable();
 
             $table->timestamps();

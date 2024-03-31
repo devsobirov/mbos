@@ -14,7 +14,7 @@ class PaymentController extends Controller
         $paginated = Payment::with([
             'customer:id,name',
             'invoice' => function ($query) {
-                $query->select('id','number','project_id','plan_id')->with('project:id,name', 'plan:id,name');
+                $query->select('id','number','project_id')->with('project:id,name');
             }
         ])
             ->orderBy('id', 'desc')

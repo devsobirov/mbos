@@ -44,7 +44,7 @@
     </td>
     <td>{{$item->created_at->format('d-M-Y')}}</td>
     <td>{{$item->updated_at->format('d-M-Y')}}</td>
-    <td>Aktiv</td>
+    <td><span class="badge {{$item->getStatusClass()}}">{{$item->getStatusName()}}</span></td>
     <td></td>
     </tbody>
 </table>

@@ -7,6 +7,10 @@
             <h2 class="page-title">
                 Shartnoma - raqam: #{{$invoice->number}}, ID: {{$invoice->id}}, loyiha: {{$invoice->project->name}}
             </h2>
+            <a href="#" data-bs-target="#invoice-form-{{$invoice->id}}" data-bs-toggle="modal" class="btn btn-icon btn-warning" title="Boshqarish">
+                <x-svg.settings-sm></x-svg.settings-sm>
+            </a>
+            @include('admin.invoices._invoice-form', ['item' => $invoice])
         </div>
     </div>
     <div class="page-body">
@@ -28,8 +32,10 @@
 
             <div class="d-flex justify-content-between mb-3">
                 <h3 class="card-title">Xizmatlar ({{$services->count()}})</h3>
-                <a href="#" class="btn btn-azure" data-bs-target="#service-form-add" data-bs-toggle="modal" title="Xizmat kirirish"><x-svg.plus></x-svg.plus> Xizmat kirirish</a>
-                @include('admin.subscriptions._service-form-add', ['services' => $serviceList])
+                @if($invoice->isActive())
+                    <a href="#" class="btn btn-azure" data-bs-target="#service-form-add" data-bs-toggle="modal" title="Xizmat kirirish"><x-svg.plus></x-svg.plus> Xizmat kirirish</a>
+                    @include('admin.subscriptions._service-form-add', ['services' => $serviceList])
+                @endif
             </div>
 
             <div class="card mb-4">
@@ -38,8 +44,10 @@
 
             <div class="d-flex justify-content-between mb-3">
                 <h3 class="card-title">Obuna tariflari ({{$subscriptions->count()}})</h3>
-                <a href="#" class="btn btn-azure" data-bs-target="#subs-form-add" data-bs-toggle="modal" title="Obuna kirirish"><x-svg.plus></x-svg.plus> Obuna kirirish</a>
-                @include('admin.subscriptions._subs-form-add', ['subscriptions' => $plans])
+                @if($invoice->isActive())
+                    <a href="#" class="btn btn-azure" data-bs-target="#subs-form-add" data-bs-toggle="modal" title="Obuna kirirish"><x-svg.plus></x-svg.plus> Obuna kirirish</a>
+                    @include('admin.subscriptions._subs-form-add', ['subscriptions' => $plans])
+                @endif
             </div>
 
             <div class="card mb-4">
@@ -48,8 +56,10 @@
 
             <div class="d-flex justify-content-between mb-3">
                 <h3 class="card-title">To'lov ma'lumotlari</h3>
-                <a href="#" class="btn btn-azure" data-bs-target="#payment-form" data-bs-toggle="modal" title="To'lov kirirish"><x-svg.plus></x-svg.plus> To'lov kirirish</a>
-                @include('admin.payments._form', ['item' => $invoice])
+                @if($invoice->isActive())
+                    <a href="#" class="btn btn-azure" data-bs-target="#payment-form" data-bs-toggle="modal" title="To'lov kirirish"><x-svg.plus></x-svg.plus> To'lov kirirish</a>
+                    @include('admin.payments._form', ['item' => $invoice])
+                @endif
             </div>
             <div class="card mb-4">
                 <div class="table-responsive">

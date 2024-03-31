@@ -67,7 +67,7 @@
 <script>
     function defaultInvoice() {
         return {
-            next_payment_date: "{{$invoice->next_payment_date->format('Y-m-d')}}",
+            next_payment_date: "{{$invoice->next_payment_date ? $invoice->next_payment_date->format('Y-m-d') : ''}}",
         }
     }
     function serviceFormData() {

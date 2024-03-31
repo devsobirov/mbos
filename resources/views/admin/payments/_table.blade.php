@@ -20,19 +20,19 @@
             <tr>
                 <td>#{{$payment->number}}</td>
                 <td><a href="{{route('invoices.customer', $payment->customer->id)}}">{{$payment->customer->name}}</a></td>
-                <td>{{$payment->invoice->project->name}}/{{$payment->invoice->plan->name}}</td>
+                <td>{{$payment->invoice->project->name}}</td>
                 <td><a href="{{route('invoices.show', $payment->invoice->number)}}">#{{$payment->invoice->number}}</a></td>
                 <td>{{$payment->payment_for_date->format('d-M-Y')}}</td>
                 <td>{{$payment->created_at->format('d-M-Y')}}</td>
                 <td>{{$payment->getPaymentType()}}</td>
                 <td>{{$payment->amount}}</td>
                 <td>{{$payment->left_amount}}</td>
-                <td>-</td>
+                <td><span class="badge {{$payment->getStatusClass()}}">{{$payment->getStatusName()}}</span></td>
                 <td>{{$payment->author->name}}</td>
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="text-center">Shartnoma uchun to'lov checklari topilmadi</td>
+                <td colspan="7" class="text-center">Shartnoma uchun to'lov cheklari topilmadi</td>
             </tr>
         @endforelse
         </tbody>

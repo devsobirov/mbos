@@ -7,10 +7,12 @@ use App\Http\Resources\Invoice\ProjectResource;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Plan;
 use App\Models\Project;
 use App\Http\Requests\Invoice\SaveInvoiceRequest;
 use App\Models\Service;
 use App\Models\Subscription;
+use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
@@ -91,5 +93,45 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoices.show', $invoice->number)
             ->with('success', "Muvaffaqiyatli saqlandi");
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        if ($request->status == Invoice::STATUS_ACTIVE) {
+            $invoice->update([
+                'next_payment_date' => $request->next_payment_date,
+                'notes' => $request->notes
+            ]);
+
+            $invoice->save();
+        } else {
+            $this->archiveInvoice($invoice);
+        }
+
+        return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
+    }
+
+    protected function archiveInvoice(Invoice $invoice): void
+    {
+        $status = \request()->status;
+        $planStatus = $status == Invoice::STATUS_CLOSED ? Plan::STATUS_CLOSED : Plan::STATUS_CANCELLED;
+        $planCancelledAt = $planStatus === Plan::STATUS_CANCELLED ? now() : null;
+
+        $invoice->update([
+            'status' => $status,
+            'next_payment_date' => null
+        ]);
+
+        Subscription::where('invoice_id', $invoice->id)->whereNotIn('status', [Plan::STATUS_CANCELLED, Plan::STATUS_CLOSED])
+            ->update([
+                'status' => $planStatus,
+                'cancelled_at' => $planCancelledAt
+            ]);
+
+        Service::where('invoice_id', $invoice->id)->whereNotIn('status', [Plan::STATUS_CANCELLED, Plan::STATUS_CLOSED])
+            ->update([
+                'status' => $planStatus,
+                'cancelled_at' => $planCancelledAt
+            ]);
     }
 }

@@ -106,7 +106,7 @@
             extra_qty: 0,
             start_date: null,
             expire_date: null,
-            next_payment_date: "{{$invoice->next_payment_date->format('Y-m-d')}}",
+            next_payment_date: "{{$invoice->next_payment_date ? $invoice->next_payment_date->format('Y-m-d') : ''}}",
         }
     }
     function invoiceFormData() {

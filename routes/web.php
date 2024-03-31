@@ -38,6 +38,7 @@ Route::middleware(['auth', 'worker'])->group(function () {
         Route::get('/customer/{customer}', 'customer')->name('invoices.customer');
         Route::get('/create/{customer}/{project}', 'create')->name('invoices.create');
         Route::post('/save', 'save')->name('invoices.save');
+        Route::post('/update/{invoice}', 'update')->name('invoices.update');
     });
 
     Route::controller(PaymentController::class)->prefix('payments')->group(function () {

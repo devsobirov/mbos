@@ -31,7 +31,7 @@
             <td>{{number_format((int)$item->payments_sum_amount, 0, ',', ' ')}} UZS</td>
             <td>{{number_format($item->total_cost - $item->payments_sum_amount, 0, ',', ' ')}} UZS</td>
             <td>
-                <span class="badge badge-success">Aktiv</span>
+                <span class="badge {{$item->getStatusClass()}}">{{$item->getStatusName()}}</span>
             </td>
             <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
             <td>
