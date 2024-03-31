@@ -11,6 +11,5 @@ class Service extends Model
     use HasFactory, SubscriptionItem;
 
     protected $with = ['plan:id,name,unit_id'];
-    public $timestamps = false;
     protected $guarded = false;
 }

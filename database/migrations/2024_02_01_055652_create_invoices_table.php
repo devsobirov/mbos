@@ -32,6 +32,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('status')->nullable()->default(\App\Models\Invoice::STATUS_ACTIVE);
             $table->text('notes')->nullable();
 
+            $table->timestamp('archived_at')->nullable();
             $table->timestamps();
         });
     }
