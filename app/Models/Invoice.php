@@ -43,7 +43,7 @@ class Invoice extends Model
 
     public function subscriptions(): HasMany
     {
-        return $this->hasMany(Subscription::class, 'invoice_id', 'id');
+        return $this->hasMany(Subscription::class, 'invoice_id', 'id')->orderByDesc('id');
     }
 
     public function payments(): HasMany

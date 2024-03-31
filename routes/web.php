@@ -48,6 +48,7 @@ Route::middleware(['auth', 'worker'])->group(function () {
     Route::controller(SubscriptionController::class)->prefix('invoice-items')->group(function () {
         Route::post('update-subs/{subscription}', 'updateSubs')->name('invoice-item.update.subs');
         Route::post('add-subs/{invoice}', 'addSubs')->name('invoice-item.add-subs');
+        Route::post('continue-subs/{subscription}', 'continueSubs')->name('invoice-item.continue-subs');
 
         Route::post('update-service/{service}', 'updateService')->name('invoice-item.update-service');
         Route::post('add-service/{invoice}', 'addService')->name('invoice-item.add-service');

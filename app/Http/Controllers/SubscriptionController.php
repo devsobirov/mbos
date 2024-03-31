@@ -58,6 +58,32 @@ class SubscriptionController extends Controller
 
         return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
     }
+
+    public function continueSubs(Request $request, Subscription $subscription)
+    {
+        $request->validate([
+            'base_qty' => 'required|numeric|min:1',
+            'expire_date' => 'required'
+        ]);
+
+        $qty = $subscription->qty;
+        $cost = $subscription->cost;
+        $perCost = $cost/$qty;
+        $newCost = round($request->base_qty * $perCost);
+
+        $subscription->update([
+            'qty' => $qty + $request->base_qty,
+            'cost' => $cost + $newCost,
+            'expire_date' => $request->expire_date
+        ]);
+
+        $invoice = $subscription->invoice;
+        $total = $invoice->total_cost;
+
+        $invoice->update(['total_cost' => $total + $newCost]);
+        return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
+    }
+
     public function updateService(Request $request, Service $service)
     {
         if ($service->status == Plan::STATUS_ACTIVE) {
