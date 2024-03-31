@@ -5,14 +5,14 @@
         <!-- Page title -->
         <div class="page-header d-print-none d-flex flex-row align-items-center justify-content-between">
             <h2 class="page-title">
-                Тарифные планы проекта {{$project->name}}
+                "{{$project->name}}" loyihasi uchun tarif va xizmatlar
                 @if ($paginated->total() > 0)
-                    (Показаны записи с {{ $paginated->firstItem() }} по {{ $paginated->lastItem() }} из {{ $paginated->total() }} всего.)
+                    (Ko'rsatilgan: {{ $paginated->firstItem() }} dan {{ $paginated->lastItem() }} gacha, jami {{ $paginated->total() }})
                 @endif
             </h2>
             <div>
-                <a href="{{route('projects.index')}}" class="btn btn-primary mx-1">Вернутся проектам</a>
-                <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-" class="btn btn-primary">Создать новый</a>
+                <a href="{{route('projects.index')}}" class="btn btn-primary mx-1">Loyihalarga qaytish</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-" class="btn btn-primary">Yangi yaratish</a>
                 @include('admin.plans._form', ['item' => new \App\Models\Plan()])
             </div>
         </div>

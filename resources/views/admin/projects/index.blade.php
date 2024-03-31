@@ -5,12 +5,12 @@
         <!-- Page title -->
         <div class="page-header d-print-none d-flex flex-row align-items-center justify-content-between">
             <h2 class="page-title">
-                Все проекты
+                Barcha loyihalar
                 @if ($paginated->total() > 0)
-                    (Показаны записи с {{ $paginated->firstItem() }} по {{ $paginated->lastItem() }} из {{ $paginated->total() }} всего.)
+                    (Ko'rsatilgan: {{ $paginated->firstItem() }} dan {{ $paginated->lastItem() }} gacha, jami {{ $paginated->total() }})
                 @endif
             </h2>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-" class="btn btn-primary">Создать новый</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-" class="btn btn-primary">Yangi yaratish</a>
             @include('admin.projects._form', ['project' => new \App\Models\Project()])
         </div>
     </div>

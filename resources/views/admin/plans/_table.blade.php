@@ -2,12 +2,13 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name/Description</th>
-        <th>Base price/amount</th>
-        <th>Extra price/amount</th>
+        <th>Nomi/Ma'lumot</th>
+        <th>Turi</th>
+        <th>Bazis narx/miqdor</th>
+        <th>Qo'shimcha narx/miqdor</th>
         <th>Status</th>
-        <th>Created at</th>
-        <th>Updated at</th>
+        <th>Yaratilgan</th>
+        <th>Tahrirlangan</th>
         <th></th>
     </tr>
     </thead>
@@ -16,10 +17,11 @@
         <tr>
             <td>{{ $item->id }}</td>
             <td class="w-25">{{ $item->name }} <p class="fs-6 text-secondary">{{$item->description}}</p></td>
+            <td>{{$item->is_expirable ? 'Tarif reja (obuna)' : 'Xizmat'}}</td>
             <td>{{$item->base_price}} sum/{{$item->base_amount}} {{$item->getUnit()}} uchun</td>
             <td>
                 @if($item->per_extra_price && $item->per_extra_amount)
-                    {{$item->per_extra_price}} sum / xar {{$item->per_extra_amount}} {{$item->getUnit()}} uchun
+                    {{$item->per_extra_price}} UZS / xar {{$item->per_extra_amount}} {{$item->getUnit()}} uchun
                 @else
                 -
                 @endif
@@ -52,7 +54,7 @@
             </td>
         </tr>
     @empty
-        <tr><td colspan="8" class="py-4 text-center">Тарифы не найдены, <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-">создайте нового</a></td></tr>
+        <tr><td colspan="9" class="py-4 text-center">Tarif va xizmatlar topilmadi, <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-">yangi tarif yarating</a></td></tr>
     @endforelse
     </tbody>
 </table>

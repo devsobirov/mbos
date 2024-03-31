@@ -3,8 +3,8 @@
     <tr>
         <th>ID</th>
         <th width="90px"></th>
-        <th>Name</th>
-        <th>Created at</th>
+        <th>Nomi</th>
+        <th>Yaratilgan</th>
         <th>Status</th>
         <th></th>
     </tr>
@@ -24,7 +24,7 @@
                     </a>
                     @include('admin.projects._form', ['$project' => $project])
                     <a href="{{route('projects.plans', $project->id)}}" class="btn btn-icon btn-primary px-3" title="Тарифы">
-                        Тарифы @if($count = $project->plans_count) ({{$count}}) @endif
+                        Tariflar @if($count = $project->plans_count) ({{$count}}) @endif
                     </a>
 
                     @if(!$project->deleted_at)
@@ -46,7 +46,7 @@
             </td>
         </tr>
     @empty
-        <tr><td colspan="5" class="py-4 text-center">Пооекты не найдены, <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-">создайте нового</a></td></tr>
+        <tr><td colspan="5" class="py-4 text-center">Loyihalar topilmadi, <a href="#" data-bs-toggle="modal" data-bs-target="#project-form-">yangi loyiha yarating</a></td></tr>
     @endforelse
     </tbody>
 </table>

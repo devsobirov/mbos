@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">Tarif nomi <sup class="fw-bold text-danger">*</sup></label>
+                    <label class="form-label">Tarif yoki xizmat nomi <sup class="fw-bold text-danger">*</sup></label>
                     <input type="text" class="form-control" name="name" required value="{{$item->name ?: old('name')}}" placeholder="Abonent tulovi (50-70)">
                 </div>
                 <div class="mb-3">
@@ -61,12 +61,12 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    Cancel
+                    Bekor qilish
                 </a>
                 <button class="btn btn-primary ms-auto">
                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-                    Save plan
+                    Saqlash
                 </button>
             </div>
         </form>
