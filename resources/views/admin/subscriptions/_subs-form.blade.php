@@ -1,6 +1,6 @@
 <div class="modal modal-blur fade" id="subs-form-{{$item->id}}" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <form action="{{route('invoice-item.update.subs', $item->id)}}" class="modal-content" method="POST"
+        <form action="{{route('invoice-item.update-subs', $item->id)}}" class="modal-content" method="POST"
               x-data="{status: ''}"
         >
             @csrf

@@ -24,7 +24,12 @@
                 <td>
                     Yaratilgan: {{$service->created_at ? $service->created_at->format('Y-m-d H:i') : '-'}} <br>
                     Tahrirlangan: {{$service->updated_at ? $service->updated_at->format('Y-m-d H:i') : '-'}}</td>
-                <td></td>
+                <td>
+                    <a href="#" data-bs-target="#service-form-{{$service->id}}" data-bs-toggle="modal" class="btn btn-icon btn-warning" title="Boshqarish">
+                        <x-svg.settings-sm></x-svg.settings-sm>
+                    </a>
+                    @include('admin.subscriptions._service-form', ['item' => $service])
+                </td>
             </tr>
         @empty
             <tr><td colspan="7" class="text-center">Shartnoma uchun kiritilgan xizlmatlar topilmadi</td></tr>
