@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
  */
 trait HasLoggableUpdates
 {
+    protected ?int $groupTypeId = null;
+
     protected function logEvent($event, $model, $type, $saveModified = false)
     {
         $logData = [
@@ -21,6 +23,7 @@ trait HasLoggableUpdates
             'message' => $saveModified ? $this->formatChangesToString($model) : null,
             'log_type' => $type,
             'group_type' => $this->groupType,
+            'group_type_id' => $this->groupTypeId,
             'user_id' => auth()->id(),
         ];
 
@@ -50,5 +53,9 @@ trait HasLoggableUpdates
         return (is_object($value) || is_array($value))
             ? json_encode($value)
             : (string) $value;
+    }
+
+    protected function setGroupTypeId($id) {
+        $this->groupTypeId = $id;
     }
 }

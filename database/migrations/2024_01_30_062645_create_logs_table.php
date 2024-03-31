@@ -16,6 +16,7 @@ class CreateLogsTable extends Migration
             $table->integer('log_type')->nullable()
                 ->default(\App\Helpers\LogTypeHelper::TYPE_INFO);
             $table->string('group_type')->nullable();
+            $table->string('group_type_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->timestamps();
 

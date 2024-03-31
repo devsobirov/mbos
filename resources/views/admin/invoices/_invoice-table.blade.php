@@ -6,10 +6,10 @@
             <th>Mijoz</th>
         @endisset
         <th>Loyiha/Tarif</th>
-        <th>Narx</th>
+        <th>To'lovga tasdiqlangan</th>
         <th>To'langan</th>
+        <th>Qoldiq</th>
         <th>Status</th>
-        <th>Muddat</th>
         <th>Yaratilgan</th>
         <th></th>
     </tr>
@@ -26,29 +26,12 @@
                     <a href="{{route('invoices.customer', $item->customer_id)}}">{{$item->customer->name}}</a>
                 </td>
             @endisset
-            <td>{{ $item->project->name }} / {{$item->plan->name}}</td>
-            <td>
-                Jami: {{$item->total_cost}} <br>
-                Asosiy: {{$item->base_cost}}
-                @if($item->extra_cost)
-                    <br>Qo'shimcha: {{$item->extra_cost}}
-                @endif
-                @if($item->base_discount)
-                    <br>Chegirma: {{$item->base_discount}}
-                @endif
-            </td>
-            <td>{{$item->payments_sum_amount}}</td>
+            <td>{{ $item->project->name }}</td>
+            <td>{{number_format($item->total_cost, 0, ',', ' ')}} UZS<br></td>
+            <td>{{number_format((int)$item->payments_sum_amount, 0, ',', ' ')}} UZS</td>
+            <td>{{number_format($item->total_cost - $item->payments_sum_amount, 0, ',', ' ')}} UZS</td>
             <td>
                 <span class="badge badge-success">Aktiv</span>
-            </td>
-            <td>
-                Dan: {{$item->start_date ? $item->start_date->format('d-M-Y') : ''}} <br>
-                @if($item->lifetime)
-                    Muddatsiz
-                @else
-                    Gacha: {{$item->expire_date ? $item->expire_date->format('d-M-Y') : ''}} <br>
-                    {{$item->left_days}}
-                @endif
             </td>
             <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
             <td>

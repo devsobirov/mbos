@@ -49,6 +49,6 @@ class UnitHelper
      */
     public static function isExpirable($unitId): bool
     {
-        return in_array($unitId, [self::QTY_MONTH, self::QTY_DAY]);
+        return in_array($unitId, [self::QTY_MONTH]);
     }
 }

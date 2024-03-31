@@ -5,23 +5,34 @@
         <!-- Page title -->
         <div class="page-header d-print-none d-flex flex-row align-items-center justify-content-between">
             <h2 class="page-title">
-                Shartnoma #{{$invoice->number}}
+                Shartnoma - raqam: #{{$invoice->number}}, ID: {{$invoice->id}}, loyiha: {{$invoice->project->name}}
             </h2>
         </div>
     </div>
     <div class="page-body">
         <div class="container-xl">
 
+            <h3 class="card-title">Mijoz ma'lumotlari</h3>
             <div class="card mb-4">
                 <div class="table-responsive">
                     @include('admin.invoices._customer-info', ['item' => $invoice->customer])
                 </div>
             </div>
 
+            <h3 class="card-title">Shartnoma ma'lumotlari</h3>
             <div class="card mb-4">
                 <div class="table-responsive">
-                    @include('admin.invoices._invoice-info', ['item' => $invoice])
+                    @include('admin.invoices._general', ['item' => $invoice])
                 </div>
+            </div>
+
+            <div class="d-flex justify-content-between mb-3">
+                <h3 class="card-title">Xizmatlar</h3>
+                <a href="#" class="btn btn-azure" data-bs-target="#payment-form" data-bs-toggle="modal" title="Xizmat kirirish"><x-svg.plus></x-svg.plus> Xizmat kirirish</a>
+            </div>
+
+            <div class="card mb-4">
+                @include('admin.invoices._services', ['item' => $invoice, 'services' => $services])
             </div>
 
             <div class="d-flex justify-content-between mb-3">
@@ -34,6 +45,7 @@
                     @include('admin.invoices._payment-info', ['items' => $payments])
                 </div>
             </div>
+
         </div>
     </div>
 @endsection

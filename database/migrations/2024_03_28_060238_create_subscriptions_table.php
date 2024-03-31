@@ -31,6 +31,9 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('qty')->default(1);
             $table->bigInteger('cost');
 
+            $table->integer('status')->nullable()->default(\App\Models\Plan::STATUS_ACTIVE);
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('cancelled_with_paid_sum')->nullable();
             $table->timestamps();
         });
     }

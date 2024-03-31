@@ -12,6 +12,25 @@ class Plan extends Model
 {
     use HasFactory, HasUnit, SoftDeletes;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_CLOSED = 2;
+    const STATUS_CANCELLED = 3;
+
+    const STATUSES = [
+        self::STATUS_ACTIVE => [
+            'name' => 'aktiv',
+            'style' => 'bg-success'
+        ],
+        self::STATUS_CLOSED => [
+            'name' => 'yakunlangan',
+            'style' => 'bg-secondary'
+        ],
+        self::STATUS_CANCELLED => [
+            'name' => 'Bekor qilingan',
+            'style' => 'bg-danger'
+        ],
+    ];
+
     protected $guarded = false;
     protected $casts = [
         'status' => 'boolean',

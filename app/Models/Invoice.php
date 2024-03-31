@@ -26,6 +26,7 @@ class Invoice extends Model
     const STATUS_PENDING = 3;
     const STATUS_ACTIVE = 5;
     const STATUS_ARCHIVE = 10;
+    const STATUS_CANCELLED = 15;
 
     public function customer(): BelongsTo
     {
@@ -37,20 +38,14 @@ class Invoice extends Model
         return $this->belongsTo(Project::class, 'project_id')->withTrashed();
     }
 
-    /** @deprecated  */
-    public function plan(): BelongsTo
+    public function services(): HasMany
     {
-        return $this->belongsTo(Plan::class, 'plan_id')->withTrashed();
+        return $this->hasMany(Service::class, 'invoice_id', 'id');
     }
 
-    public function services(): BelongsToMany
+    public function subscriptions(): HasMany
     {
-        return $this->belongsToMany(
-            Plan::class,
-            'invoice_plan',
-            'invoice_id',
-            'plan_id'
-        )->withPivot('qty', 'cost');
+        return $this->hasMany(Subscription::class, 'invoice_id', 'id');
     }
 
     public function payments(): HasMany

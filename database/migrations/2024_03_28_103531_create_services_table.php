@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableInvoicePlan extends Migration
+class CreateServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateTableInvoicePlan extends Migration
      */
     public function up()
     {
-        Schema::create('table_invoice_plan', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->integer('qty');
             $table->integer('cost');
+
+            $table->integer('status')->nullable()->default(\App\Models\Plan::STATUS_ACTIVE);
+            $table->timestamp('cancelled_at')->nullable();
+            $table->timestamp('cancelled_with_paid_sum')->nullable();
+
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('plan_id');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +35,6 @@ class CreateTableInvoicePlan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_invoice_plan');
+        Schema::dropIfExists('services');
     }
 }

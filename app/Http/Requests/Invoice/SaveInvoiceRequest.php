@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Invoice;
 
+use App\Models\Invoice;
 use App\Models\Plan;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,7 +17,7 @@ class SaveInvoiceRequest extends FormRequest
     {
         $planRules = [
             'plan.plan_id' => 'required|numeric|exists:plans,id',
-            'plan.base_qty' => 'required|numeric|min:1',
+            'plan.qty' => 'required|numeric|min:1',
             'plan.extra_price' => 'nullable|numeric|min:0',
             'plan.base_price' => 'required|numeric',
             'plan.cost' => 'required|numeric',
@@ -40,6 +41,7 @@ class SaveInvoiceRequest extends FormRequest
             'total_cost' => 'required|numeric',
             'next_payment_date' => 'required',
             'notes' => 'nullable|string',
+            'status' => 'numeric'
         ];
         if ($this->plan_id) $rules = array_merge($rules, $planRules);
         if (!empty($this->services)) $rules = array_merge($rules, $serviceRules);
@@ -61,10 +63,10 @@ class SaveInvoiceRequest extends FormRequest
             $base_price = (int) ($plan->base_price * $this->base_qty);
             $extra_price = (int) ($plan->per_extra_price * $this->extra_qty * $this->base_qty);
             $cost = $base_price + $extra_price;
-            $base_qty = $this->base_qty;
+            $qty = $this->base_qty;
             $start_date = $this->start_date;
             $expire_date = $this->expire_date;
-            $plan = compact('plan_id', 'base_qty', 'base_price', 'extra_price', 'cost', 'start_date', 'expire_date');
+            $plan = compact('plan_id', 'qty', 'base_price', 'extra_price', 'cost', 'start_date', 'expire_date');
         }
 
         if (!empty($this->services)) {
@@ -80,7 +82,10 @@ class SaveInvoiceRequest extends FormRequest
         $percent_discount_sum = $percent_discount ? (round($percent_discount * $total_cost * 0.01)) : 0;
         $total_discount = $fixed_discount + $percent_discount_sum;
         $total_cost = $total_cost - $total_discount;
+        $status = Invoice::STATUS_ACTIVE;
 
-        $this->merge(compact('total_cost', 'fixed_discount', 'percent_discount', 'percent_discount_sum', 'plan'));
+        $this->merge(
+            compact('total_cost', 'fixed_discount', 'percent_discount', 'percent_discount_sum', 'plan', 'status')
+        );
     }
 }

@@ -1,6 +1,3 @@
-<div class="card-header">
-    <h3 class="card-title">Mijoz ma'lumotlari</h3>
-</div>
 <div class="card-table table-responsive">
     <table class="table table-vcenter">
         <thead>

@@ -9,13 +9,14 @@ use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Project;
 use App\Http\Requests\Invoice\SaveInvoiceRequest;
+use App\Models\Service;
 use App\Models\Subscription;
 
 class InvoiceController extends Controller
 {
     public function index()
     {
-        $paginated = Invoice::with('project:id,name', 'plan:id,name', 'customer:id,name')
+        $paginated = Invoice::with('project:id,name', 'customer:id,name')
             ->withSum('payments', 'amount')
             ->orderBy('status', 'asc')
             ->paginate(20);
@@ -39,7 +40,9 @@ class InvoiceController extends Controller
         $payments = Payment::where('invoice_id', $invoice->id)->orderBy('id', 'desc')->get();
         $lastPayment = $invoice->lastPayment;
 
-        return view('admin.invoices.invoice', compact('invoice', 'payments', 'lastPayment'));
+        $services = $invoice->services;
+        $subscriptions = $invoice->subscriptions;
+        return view('admin.invoices.invoice', compact('invoice', 'payments', 'lastPayment', 'services', 'subscriptions'));
     }
 
     public function create(Customer $customer, Project $project)
@@ -57,7 +60,7 @@ class InvoiceController extends Controller
 
     public function save(SaveInvoiceRequest $request)
     {
-        $invoice = Invoice::create($request->input([
+        $invoice = Invoice::create($request->only(
             "project_id",
             "customer_id",
             "fixed_discount",
@@ -66,7 +69,7 @@ class InvoiceController extends Controller
             "total_cost",
             "next_payment_date",
             "notes",
-        ]));
+        ));
 
         if (!empty($request->plan)) {
             $subscription = $request->plan;
@@ -74,8 +77,12 @@ class InvoiceController extends Controller
             Subscription::create($subscription);
         }
 
-        if (!empty($request->servives)) {
-            $invoice->services()->sync($request->services);
+        if (!empty($request->services)) {
+            foreach ($request->services as $id => $data) {
+                $data['plan_id'] = $id;
+                $data['invoice_id'] = $invoice->id;
+                Service::create($data);
+            }
         }
 
         return redirect()->route('invoices.show', $invoice->number)

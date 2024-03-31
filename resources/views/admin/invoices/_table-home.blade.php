@@ -16,7 +16,7 @@
         <tr>
             <td>#{{$item->number}} <br>ID: {{ $item->id }}</td>
             <td><a href="{{route('invoices.customer', $item->customer_id)}}">{{$item->customer->name}}</a></td>
-            <td>{{ $item->project->name }} / {{$item->plan->name}}</td>
+            <td>{{ $item->project->name }}</td>
             <td>{{$item->total_cost}}</td>
             <td>{{$item->payments_sum_amount}}</td>
             <td>{{$item->total_cost - $item->calculateUnpaidAmount()}} </td>
