@@ -29,7 +29,7 @@ class InvoiceController extends Controller
     public function customer(Customer $customer)
     {
         $paginated = Invoice::where('customer_id', $customer->id)
-            ->with('project:id,name', 'plan:id,name')
+            ->with('project:id,name')
             ->withSum('payments', 'amount')
             ->orderBy('status', 'asc')
             ->paginate(20);

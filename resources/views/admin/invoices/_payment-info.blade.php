@@ -21,7 +21,7 @@
             <td>{{$payment->getPaymentType()}}</td>
             <td>{{$payment->amount}}</td>
             <td>{{$payment->left_amount}}</td>
-            <td>-</td>
+            <td><span class="badge {{$payment->getStatusClass()}}">{{$payment->getStatusName()}}</span></td>
             <td>{{$payment->author->name}}</td>
         </tr>
         @empty

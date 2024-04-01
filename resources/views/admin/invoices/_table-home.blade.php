@@ -30,7 +30,7 @@
             </td>
         </tr>
     @empty
-        <tr><td colspan="8" class="py-4 text-center">Aktive shartnomalar topilmadi</td></tr>
+        <tr><td colspan="8" class="py-4 text-center">Aktiv shartnomalar topilmadi</td></tr>
     @endforelse
     </tbody>
 </table>

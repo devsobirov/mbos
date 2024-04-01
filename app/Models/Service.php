@@ -12,4 +12,5 @@ class Service extends Model
 
     protected $with = ['plan:id,name,unit_id'];
     protected $guarded = false;
+    protected $casts = ['cancelled_at' => 'datetime'];
 }
