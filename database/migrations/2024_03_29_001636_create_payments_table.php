@@ -20,6 +20,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('amount');
             $table->integer('left_amount');
             $table->integer('type');
+            $table->string('reason')->nullable();
             $table->unsignedBigInteger('invoice_id')->index();
             $table->unsignedBigInteger('customer_id')->index();
             $table->unsignedBigInteger('user_id');

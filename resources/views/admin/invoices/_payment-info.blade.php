@@ -12,7 +12,6 @@
             <th>Ma'sul</th>
         </tr>
         </thead>
-        <tbody>
         @forelse($payments as $payment)
         <tr>
             <td>#{{$payment->number}}</td>
@@ -24,11 +23,16 @@
             <td><span class="badge {{$payment->getStatusClass()}}">{{$payment->getStatusName()}}</span></td>
             <td>{{$payment->author->name}}</td>
         </tr>
+        <thead>
+        <tr>
+            <th>#{{$payment->number}}</th>
+            <th colspan="7">Izoh: {{$payment->reason ?: '-'}}</th>
+        </tr>
+        </thead>
         @empty
         <tr>
             <td colspan="7" class="text-center">Shartnoma uchun to'lov checklari topilmadi</td>
         </tr>
         @endforelse
-        </tbody>
     </table>
 </div>

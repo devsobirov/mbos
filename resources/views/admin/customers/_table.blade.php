@@ -10,11 +10,12 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Created at</th>
-        <th>Updated at</th>
+        <th>Tashkilot nomi / Raxbar</th>
+        <th>Tel</th>
+        <th>INN</th>
+        <th>Tug'ilgan kun</th>
+        <th>Yaratilgan / Tahrirlangan</th>
+        <th></th>
         <th></th>
     </tr>
     </thead>
@@ -22,11 +23,15 @@
     @forelse($paginated as $item)
         <tr>
             <td>{{ $item->id }}</td>
-            <td class="w-25">{{ $item->name }}</td>
+            <td class="w-25">
+                {{ $item->name }} / {{$item->fio ?: '-'}}
+                @if($item->notes) <div class="form-check-description">{!! $item->notes !!}</div> @endif
+                @if($item->address)<div class="form-check-description">{{ $item->address }}</div> @endif
+            </td>
             <td>{{$item->phone ?: '-'}}</td>
-            <td>{{$item->email ?: '-'}}</td>
-            <td>{{$item->created_at->format('Y-m-d H:i')}}</td>
-            <td>{{$item->updated_at->format('Y-m-d H:i')}}</td>
+            <td>{{$item->inn ?: '-'}}</td>
+            <td>{{$item->birthday ? $item->birthday->format('Y-M-d') : '-'}}</td>
+            <td>{{$item->created_at->format('Y-m-d H:i')}} <br> {{$item->updated_at->format('Y-m-d H:i')}}</td>
             <td>
                 <div class="d-flex align-items-center" style="gap:4px">
 

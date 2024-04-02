@@ -5,7 +5,7 @@
         <!-- Page title -->
         <div class="page-header d-print-none d-flex flex-row align-items-center justify-content-between">
             <h2 class="page-title">
-                Все клиенты
+                Barcha mijozlar
                 @if ($paginated->total() > 0)
                     (Показаны записи с {{ $paginated->firstItem() }} по {{ $paginated->lastItem() }} из всего {{ $paginated->total() }}.)
                 @endif

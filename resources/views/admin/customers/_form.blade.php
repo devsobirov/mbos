@@ -9,13 +9,28 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <label class="form-label">Ism yoki tashkilot nomi <sup class="fw-bold text-danger">*</sup></label>
-                    <input type="text" class="form-control" name="name" required value="{{$item->name ?: old('name')}}" placeholder="">
+                    <label class="form-label">Tashkilot nomi <sup class="fw-bold text-danger">*</sup></label>
+                    <input type="text" class="form-control" name="name" required value="{{$item->name ?: old('name')}}" placeholder="MBOS">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Phone</label>
-                    <input type="text" class="form-control" name="phone" value="{{$item->phone ?: old('phone')}}" placeholder="">
+                    <label class="form-label">Tashkilot rahbari FIO <sup class="fw-bold text-danger">*</sup></label>
+                    <input type="text" class="form-control" name="fio" value="{{$item->fio ?: old('fio')}}" placeholder="Yusupov Mansur">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tel</label>
+                    <input type="text" class="form-control" name="phone" value="{{$item->phone ?: old('phone')}}" placeholder="+998990000000">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">INN</label>
+                    <input type="text" class="form-control" name="inn" value="{{$item->inn ?: old('inn')}}" placeholder="555-555">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tug'ilgan kun</label>
+                    <input type="date" class="form-control" name="birthday" value="{{$item->birthday ? $item->birthday->format('Y-m-d') : ''}}" placeholder="1993-01-22">
                 </div>
 
                 <div class="mb-3">
@@ -27,10 +42,15 @@
                     <label class="form-label">Address</label>
                     <input type="text" class="form-control" name="address" value="{{$item->address ?: old('address')}}" placeholder="">
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Izoh</label>
+                    <textarea type="text" class="form-control" name="notes" placeholder="...">{{$item->notes ?: old('notes')}}</textarea>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                    Cancel
+                    Bekor qilish
                 </a>
                 <button class="btn btn-primary ms-auto">
                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->

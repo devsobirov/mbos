@@ -28,6 +28,7 @@ class SavePaymentRequest extends FormRequest
             'invoice_id' => 'required|numeric|exists:invoices,id',
             'customer_id' => 'required|numeric|exists:customers,id',
             'user_id' => 'required|numeric|exists:users,id',
+            'reason' => 'required|string|max:255',
         ];
     }
 

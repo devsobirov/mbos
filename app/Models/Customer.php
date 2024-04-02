@@ -12,6 +12,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $guarded = false;
+    protected $casts = ['birthday' => 'datetime'];
 
     public function invoices(): HasMany
     {
@@ -24,6 +25,9 @@ class Customer extends Model
             $query->where(function ($query) use ($search) {
                 $query->where('id', $search)
                     ->orWhere('name', 'like', "%$search%")
+                    ->orWhere('fio', 'like', "%$search%")
+                    ->orWhere('inn', 'like', "%$search%")
+                    ->orWhere('notes', 'like', "%$search%")
                     ->orWhere('phone', 'like', "%$search%")
                     ->orWhere('email', 'like', "%$search%");
             });

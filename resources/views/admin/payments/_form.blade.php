@@ -39,6 +39,10 @@
                         <input type="date" class="form-control" name="next_payment_date" :min="payment_for_date" x-model="next_payment_date" :required="!!amount_left">
                     </div>
                 </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="form-label">To'lov maqsadi (izoh)<sup class="fw-bold text-danger">*</sup></label>
+                    <input type="text" class="form-control" name="reason" placeholder="Aprel oyi uchun rejali shartnoma to'lovi ..." required>
+                </div>
                 <div class="col-md-6 col-sm-12 mb-3">
                     <label class="form-label">Ma'sul<sup class="fw-bold text-danger">*</sup></label>
                     <input type="text" class="form-control" value="{{auth()->user()->name}}" readonly disabled required>

@@ -33,6 +33,10 @@ class CustomerController extends Controller
             'phone' => 'nullable|max:255',
             'email' => 'nullable|max:255',
             'address' => 'nullable|max:255',
+            'fio' => 'nullable|max:255',
+            'notes' => 'nullable|max:2000',
+            'birthday' => 'nullable',
+            'inn' => 'nullable'
         ]);
     }
 }
