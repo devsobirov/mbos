@@ -15,6 +15,7 @@ class Plan extends Model
     const STATUS_ACTIVE = 1;
     const STATUS_CLOSED = 2;
     const STATUS_CANCELLED = 3;
+    const STATUS_DEACTIVE = 4;
 
     const STATUSES = [
         self::STATUS_ACTIVE => [
@@ -29,6 +30,10 @@ class Plan extends Model
             'name' => 'Bekor qilingan',
             'style' => 'bg-danger'
         ],
+        self::STATUS_DEACTIVE => [
+            'name' => 'Deaktiv',
+            'style' => 'bg-warning text-white'
+        ]
     ];
 
     protected $guarded = false;

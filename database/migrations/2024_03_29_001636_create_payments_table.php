@@ -24,6 +24,7 @@ class CreatePaymentsTable extends Migration
             $table->unsignedBigInteger('invoice_id')->index();
             $table->unsignedBigInteger('customer_id')->index();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subscription_id')->nullable();
 
             $table->timestamp('payment_for_date');
             $table->timestamps();

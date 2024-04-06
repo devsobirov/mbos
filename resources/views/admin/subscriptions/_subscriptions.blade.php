@@ -24,16 +24,21 @@
                 <td>{{$item->start_date ? $item->start_date->format('d-M-Y') : ''}}</td>
                 <td>
                     {{$item->expire_date ? $item->expire_date->format('d-M-Y') : ''}} <br>
-                    {{$item->left_days}}
+                    @if($forHuman = $item->left_days_for_human)
+                        <span class="badge {{$item->left_days_class}}">{{$forHuman}}</span>
+                    @endif
                 </td>
                 <td>
+                    @if($item->isExpired())
+                        <span class="badge {{$item->left_days_class}}">Qarzga o'tgan ({{$item->days_left}} kun)</span><br>
+                    @endif
                     <span class="badge {{$item->getStatusClass()}}">{{$item->getStatusName()}}</span>
                 </td>
                 <td>
                     <a href="#" data-bs-target="#subs-form-{{$item->id}}" data-bs-toggle="modal" class="btn btn-icon btn-warning" title="Boshqarish">
                         <x-svg.settings-sm></x-svg.settings-sm>
                     </a>
-                    @if($item->status == \App\Models\Plan::STATUS_ACTIVE)
+                    @if(in_array($item->status, [\App\Models\Plan::STATUS_ACTIVE, \App\Models\Plan::STATUS_DEACTIVE]))
                         <a href="#" data-bs-target="#subs-form-add-{{$item->id}}" data-bs-toggle="modal" class="btn btn-icon btn-success" title="Uzaytirish">
                             <x-svg.plus></x-svg.plus>
                         </a>

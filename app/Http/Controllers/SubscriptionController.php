@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Service;
 use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
@@ -16,6 +18,8 @@ class SubscriptionController extends Controller
         if ($subscription->status == Plan::STATUS_ACTIVE) {
             if ($request->status == Plan::STATUS_CANCELLED) {
                 $this->cancelInvoiceItem($subscription->invoice, $subscription);
+            } elseif ($request->status == Plan::STATUS_DEACTIVE) {
+                $this->deactivateSubs($subscription);
             } else {
                 $subscription->update(['status' => $request->status]);
             }
@@ -59,22 +63,53 @@ class SubscriptionController extends Controller
         return redirect()->back()->with('success', 'Muvaffaqiyatli saqlandi');
     }
 
+    protected function deactivateSubs(Subscription $subscription)
+    {
+        $subscription->status = Plan::STATUS_DEACTIVE;
+        $subscription->deactivated_at = now();
+        $subscription->deactivated_by = auth()->id();
+
+        $subscription->save();
+    }
+
     public function continueSubs(Request $request, Subscription $subscription)
     {
         $request->validate([
             'base_qty' => 'required|numeric|min:1',
-            'expire_date' => 'required'
+            'expire_date' => 'required|date_format:Y-m-d',
+            'amount' => 'required|numeric',
+            'type' => 'required|numeric',
+            'payment_for_date' => 'required|date_format:Y-m-d',
+            'created_at' => 'required|date_format:Y-m-d',
+            'reason' => 'required',
         ]);
 
         $qty = $subscription->qty;
         $cost = $subscription->cost;
         $perCost = $cost/$qty;
-        $newCost = round($request->base_qty * $perCost);
+        $newCost = round($request->amount);
 
         $subscription->update([
             'qty' => $qty + $request->base_qty,
             'cost' => $cost + $newCost,
             'expire_date' => $request->expire_date
+        ]);
+
+        if (!$subscription->isExpired()) {
+            $subscription->update(['status' => Plan::STATUS_ACTIVE]);
+        }
+        Payment::create([
+            'amount' => $request->amount,
+            'type' => $request->type,
+            'payment_for_date' => $request->payment_for_date,
+            'created_at' => $request->created_at,
+            'reason' => $request->reason,
+            'number' => strtoupper(Str::random(8)),
+            'left_amount' => 0,
+            'invoice_id' => $subscription->invoice_id,
+            'customer_id' => $subscription->invoice->customer_id,
+            'subscription_id' => $subscription->id,
+            'user_id' => auth()->id(),
         ]);
 
         $invoice = $subscription->invoice;

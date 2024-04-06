@@ -10,19 +10,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-2"><span class="pe-3">Boshlanish muddati:</span> {{$item->start_date ? $item->start_date->format('d-M-Y') : ''}}</div>
-                <div class="mb-2"><span class="pe-3">Tugash muddati:</span>
-                    {{$item->expire_date ? $item->expire_date->format('d-M-Y') : ''}} ({{$item->left_days}})
-                </div>
-                <div class="mb-2"><span class="pe-3">Holati: </span> <span class="badge {{$item->getStatusClass()}}">{{$item->getStatusName()}}</span></div>
-                <div class="mb-2"><span class="pe-3">Summa: </span> {{$item->cost}} UZS</div>
-                @if($item->cancelled_at)
-                    <div class="mb-2"><span class="pe-3">Bekor qilingan:</span> {{$item->cancelled_at->format('d-M-Y')}}</div>
-                    <div class="mb-2"><span class="pe-3">To'langan summa:</span> {{$item->cancelled_with_paid_sum}} UZS</div>
-                    <div class="mb-2"><span class="pe-3">Kamomat:</span> <span class="badge bg-danger">{{$item->cancelled_with_paid_sum - $item->cost}} UZS</span></div>
-                @endif
+                @include('admin.subscriptions._subs_modal_base_info', ['item' => $item])
                 <div class="mb-4"></div>
                 @if($item->status == \App\Models\Plan::STATUS_ACTIVE)
+                    @if($item->isExpired() || $item->isExpiresToday())
+                        <label class="form-check">
+                            <input type="radio" class="form-check-input" @click="status = '{{\App\Models\Plan::STATUS_DEACTIVE}}'" name="status" value="{{\App\Models\Plan::STATUS_DEACTIVE}}">
+                            <span class="form-check-label">Deaktiv qilish</span>
+                            <span class="form-check-description">Obuna vaqtincha to'xtatiladi</span>
+                        </label>
+                    @endif
                     <label class="form-check">
                         <input type="radio" class="form-check-input" @click="status = '{{\App\Models\Plan::STATUS_CLOSED}}'" name="status" value="{{\App\Models\Plan::STATUS_CLOSED}}">
                         <span class="form-check-label">Obunani tugatish</span>

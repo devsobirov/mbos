@@ -16,8 +16,8 @@ class CreateSubscriptionsTable extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('invoice_id');
-            $table->unsignedBigInteger('plan_id');
+            $table->unsignedBigInteger('invoice_id')->index();
+            $table->unsignedBigInteger('plan_id')->index();
 
 
             $table->timestamp('start_date')->nullable();
@@ -34,6 +34,10 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('status')->nullable()->default(\App\Models\Plan::STATUS_ACTIVE);
             $table->timestamp('cancelled_at')->nullable();
             $table->integer('cancelled_with_paid_sum')->nullable();
+
+            $table->timestamp('deactivated_at')->nullable();
+            $table->unsignedBigInteger('deactivated_by')->nullable();
+
             $table->timestamps();
         });
     }

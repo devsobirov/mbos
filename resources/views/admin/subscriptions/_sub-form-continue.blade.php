@@ -11,14 +11,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-2"><span class="pe-3">Boshlanish muddati:</span> {{$item->start_date ? $item->start_date->format('d-M-Y') : ''}}</div>
-                <div class="mb-2"><span class="pe-3">Tugash muddati:</span>
-                    {{$item->expire_date ? $item->expire_date->format('d-M-Y') : ''}} ({{$item->left_days}})
-                </div>
-                <div class="mb-2"><span class="pe-3">Holati: </span> <span class="badge {{$item->getStatusClass()}}">{{$item->getStatusName()}}</span></div>
-                <div class="mb-2"><span class="pe-3">Summa: </span> {{$item->cost}} UZS</div>
+                @include('admin.subscriptions._subs_modal_base_info', ['item' => $item])
                 <div class="mb-4"></div>
-                @if($item->status == \App\Models\Plan::STATUS_ACTIVE)
+                @if($item->canContinue())
                     <div class="row">
                         <div class="col-md-4 col-sm-12 mb-3">
                             <label class="form-label"><span>Oy sonini kiriting</span> <sup class="fw-bold text-danger">*</sup></label>
@@ -28,6 +23,39 @@
                             <label class="form-label">Asosiy xizmat narxi <sup class="fw-bold text-danger">*</sup></label>
                             <input type="text" class="form-control" readonly
                                    :value="`Xar 1 oy uchun ${monthlySum} UZS dan ${base_qty} oy uchun ${Math.floor(base_qty * monthlySum)} UZS`">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 mb-3">
+                            <label class="form-label">To'lov summasi (UZS) <sup class="fw-bold text-danger">*</sup></label>
+                            <input type="number" name="amount" class="form-control" required readonly :value="Math.floor(base_qty * monthlySum)" @change="validateAmount(); setLeftAmount();">
+                        </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label">To'lov turi <sup class="fw-bold text-danger">*</sup></label>
+                            @foreach(\App\Helpers\PaymentTypeHelper::getTypeList() as $id => $name)
+                                <div>
+                                    <label class="form-check">
+                                        <input class="form-check-input" name="type" type="radio" required value="{{$id}}">
+                                        <span class="form-check-label">{{$name}}</span>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <label class="form-label">Reja qilingan to'lov sanasi<sup class="fw-bold text-danger">*</sup></label>
+                                <input type="date" class="form-control" name="payment_for_date" value="{{$item->expire_date->format('Y-m-d')}}" required>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <label class="form-label">To'lov qabul qilingan sana<sup class="fw-bold text-danger">*</sup></label>
+                                <input type="date" class="form-control" name="created_at" value="{{now()->format('Y-m-d')}}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label">To'lov maqsadi (izoh)<sup class="fw-bold text-danger">*</sup></label>
+                            <input type="text" class="form-control" name="reason" placeholder="xxx oy(lari) uchun obuna to'lovi ..." required>
                         </div>
                     </div>
                     <div class="row">
