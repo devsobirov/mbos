@@ -89,7 +89,7 @@
                     this.payment_for_date = "{{$invoice->next_payment_date ? $invoice->next_payment_date->format('Y-m-d') : ''}}";
                 },
                 isValid() {
-                    return !!this.type && !!this.amount && !!this.next_payment_date &&this.payment_for_date;
+                    return !!this.type && !!this.amount && (!this.amount_left || !!this.next_payment_date) && this.payment_for_date;
                 },
                 setLeftAmount(){
                     this.amount_left = this.amount
